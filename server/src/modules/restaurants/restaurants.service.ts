@@ -1,5 +1,4 @@
 import { prisma } from '../../config/database.js';
-import { redis } from '../../config/redis.js';
 import type { CreateRestaurantInput, CreateMenuItemInput, ListRestaurantsInput } from './restaurants.schema.js';
 
 export class RestaurantsService {
@@ -61,10 +60,6 @@ export class RestaurantsService {
   }
 
   async getById(id: string) {
-    // Try cache first
-    const cached = await redis?.get(`restaurant:${id}`).catch(() => null);
-    if (cached) return JSON.parse(cached);
-
     const restaurant = await prisma.restaurant.findUnique({
       where: { id },
       include: {
@@ -78,9 +73,6 @@ export class RestaurantsService {
     if (!restaurant) {
       throw { statusCode: 404, code: 'NOT_FOUND', message: 'Restaurant not found' };
     }
-
-    // Cache for 1 hour
-    await redis.set(`restaurant:${id}`, JSON.stringify(restaurant), 'EX', 3600).catch(() => {});
 
     return restaurant;
   }
@@ -112,9 +104,6 @@ export class RestaurantsService {
       data: input,
     });
 
-    // Invalidate cache
-    await redis.del(`restaurant:${id}`).catch(() => {});
-
     return updated;
   }
 
@@ -128,7 +117,6 @@ export class RestaurantsService {
       data: { ...input, restaurantId },
     });
 
-    await redis.del(`restaurant:${restaurantId}`).catch(() => {});
     return item;
   }
 
@@ -146,7 +134,6 @@ export class RestaurantsService {
       data: input,
     });
 
-    await redis.del(`restaurant:${restaurantId}`).catch(() => {});
     return updated;
   }
 
@@ -160,7 +147,6 @@ export class RestaurantsService {
     }
 
     await prisma.menuItem.delete({ where: { id: itemId } });
-    await redis.del(`restaurant:${restaurantId}`).catch(() => {});
   }
 }
 

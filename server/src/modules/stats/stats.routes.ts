@@ -1,17 +1,10 @@
 import { FastifyInstance } from 'fastify';
 import { prisma } from '../../config/database.js';
-import { redis } from '../../config/redis.js';
 import { sendSuccess } from '../../utils/response.js';
 
 export async function statsRoutes(app: FastifyInstance) {
   // Public — no auth required
   app.get('/stats/platform', async (_request, reply) => {
-    // Try cache first
-    const cached = await redis?.get('stats:platform').catch(() => null);
-    if (cached) {
-      return sendSuccess(reply, JSON.parse(cached));
-    }
-
     const [totalOrders, totalSavings, activeBatches] = await Promise.all([
       prisma.order.count({ where: { status: { not: 'CANCELLED' } } }),
       prisma.order.aggregate({
@@ -32,9 +25,6 @@ export async function statsRoutes(app: FastifyInstance) {
       totalOrders,
       avgWaitReduction: 24, // Fine-tuned metric from operations
     };
-
-    // Cache for 5 minutes
-    await redis.set('stats:platform', JSON.stringify(stats), 'EX', 300).catch(() => {});
 
     return sendSuccess(reply, stats);
   });

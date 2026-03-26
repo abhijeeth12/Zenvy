@@ -2,10 +2,8 @@ import { createServer } from 'http';
 import { buildApp } from './app.js';
 import { env } from './config/env.js';
 import { prisma } from './config/database.js';
-import { connectRedis } from './config/redis.js';
 import { initSocketIO } from './config/socket.js';
 import { initChatGateway } from './modules/chat/chat.gateway.js';
-import { startWorkers } from './jobs/queue.js';
 import { logger } from './utils/logger.js';
 import cron from 'node-cron';
 import { checkBatchesAndOrders } from './scheduler.js';
@@ -19,25 +17,15 @@ async function main() {
     await prisma.$connect();
     logger.info('✅ PostgreSQL connected');
 
-    // Connect to Redis (graceful fallback)
-    await connectRedis();
-
     // Create HTTP server for Socket.io
     const httpServer = createServer(app.server);
 
     // Initialize Socket.io
     const io = initSocketIO(httpServer);
     initChatGateway(io);
-    logger.info('✅ Socket.io initialized');
+    logger.info('✅ Socket.io initialized (In-Memory)');
 
-    // Start background workers (only if Redis is available)
-    try {
-      startWorkers();
-    } catch {
-      logger.warn('⚠️  Background workers not started (Redis may be unavailable)');
-    }
-
-    // Initialize node-cron scheduler
+    // Initialize node-cron scheduler for batch lifecycle & wallet deduction
     cron.schedule('* * * * *', async () => {
       await checkBatchesAndOrders();
     });
@@ -49,6 +37,7 @@ async function main() {
     logger.info(`
   ╔══════════════════════════════════════════╗
   ║         🍣 Zenvy API Server             ║
+  ║      (Redis-Free Architecture)           ║
   ║                                          ║
   ║   REST:   http://${env.HOST}:${env.PORT}/api/v1    ║
   ║   WS:     ws://${env.HOST}:${env.PORT}             ║
