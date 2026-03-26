@@ -1,0 +1,521 @@
+/* -------- Global Layout resets specific to Premium Flow -------- */
+.layout {
+  min-height: 100vh;
+  background-color: var(--color-background);
+  font-family: 'Inter', sans-serif;
+  color: #333;
+}
+
+h1, h2, h3, h4, .hero-title, .section-heading {
+  font-family: 'Playfair Display', serif;
+}
+
+/* -------- Premium Navigation -------- */
+.premium-nav {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 4rem;
+  z-index: 100;
+  transition: all 0.4s ease;
+  background: transparent;
+  color: white;
+}
+
+.premium-nav.nav-scrolled {
+  background: rgba(251, 246, 236, 0.95);
+  backdrop-filter: blur(12px);
+  padding: 1rem 4rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  color: #3a2b24;
+}
+
+.nav-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+}
+
+.nav-links a {
+  color: inherit;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: opacity 0.2s;
+}
+
+.nav-links a:hover {
+  opacity: 0.7;
+}
+
+.btn-outline-light {
+  background: transparent;
+  border: 1px solid currentColor;
+  color: inherit;
+  padding: 0.6rem 1.5rem;
+  border-radius: 2px;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-light:hover {
+  background: white;
+  color: #3a2b24;
+}
+
+/* -------- Hero Section with Parallax -------- */
+.parallax-hero {
+  height: 100vh;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  position: relative;
+}
+
+.hero-content {
+  max-width: 800px;
+  padding: 0 2rem;
+  z-index: 10;
+}
+
+.hero-script {
+  font-family: 'Pinyon Script', cursive;
+  font-size: 4.5rem;
+  font-weight: 400;
+  margin: 0 0 -1rem 0;
+  color: #e5d5be;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.hero-title {
+  font-size: 4rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  margin-bottom: 1.5rem;
+  line-height: 1.1;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+}
+
+.hero-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 300;
+  opacity: 0.9;
+  letter-spacing: 0.05em;
+  margin-bottom: 3rem;
+  line-height: 1.6;
+}
+
+.btn-hero {
+  background: white;
+  color: #3a2b24;
+  border: none;
+  padding: 1.25rem 2.5rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.btn-hero:hover {
+  background: #fbf6ec;
+  padding-left: 3rem;
+  padding-right: 2rem;
+}
+
+/* -------- About Us -------- */
+.section-about {
+  padding: 8rem 4rem;
+  background: #fdfbf8; /* Warm paper tint */
+}
+
+.about-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+  align-items: center;
+}
+
+.section-heading {
+  font-size: 2.5rem;
+  color: #111827;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.section-heading::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -0.75rem;
+  width: 40px;
+  height: 2px;
+  background: #b89562;
+}
+
+.about-desc {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: #6a5d55;
+  margin-bottom: 3rem;
+}
+
+.feature-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #3a2b24;
+}
+
+.icon-emerald {
+  color: #b89562;
+}
+
+.shadow-elegant {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.about-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.7s ease;
+}
+
+.about-image-wrapper:hover .about-image {
+  transform: scale(1.05);
+}
+
+/* -------- Parallax Divider & Dashboard -------- */
+.parallax-divider {
+  padding: 6rem 4rem;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+}
+
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.light-heading {
+  color: white;
+}
+
+.light-heading::after {
+  background: #b89562;
+}
+
+.light-subheading {
+  font-size: 1.125rem;
+  opacity: 0.8;
+  margin-top: 1.5rem;
+  margin-bottom: 4rem;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.dash-card {
+  background: rgba(251, 246, 236, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(184, 149, 98, 0.2);
+  padding: 2.5rem;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  color: #3a2b24;
+}
+
+.dash-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.7;
+  color: #6a5d55;
+  margin-bottom: 1rem;
+}
+
+.dash-metric {
+  font-size: 3.5rem;
+  font-weight: 300;
+  font-family: 'Playfair Display', serif;
+  margin-bottom: 1.5rem;
+}
+
+.text-emerald {
+  color: #b89562;
+}
+
+/* Simple CSS Chart */
+.dash-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 60px;
+  margin-top: auto;
+}
+
+.bar {
+  flex: 1;
+  background: rgba(58, 43, 36, 0.1);
+  border-radius: 2px 2px 0 0;
+  transition: all 0.3s ease;
+}
+
+.active-bar {
+  background: #b89562;
+}
+
+.dash-card:hover .bar {
+  background: rgba(58, 43, 36, 0.2);
+}
+
+.dash-card:hover .active-bar {
+  background: #a38455;
+}
+
+/* Progress Track */
+.progress-track {
+  height: 8px;
+  background: rgba(58, 43, 36, 0.1);
+  border-radius: 10px;
+  margin-top: auto;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #b89562;
+  border-radius: 10px;
+}
+
+/* Batch Pulse */
+.batch-pulse-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  width: 60px;
+  margin-top: auto;
+  color: #b89562;
+}
+
+.pulse-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid #b89562;
+  animation: pulse 2s infinite;
+  opacity: 0;
+}
+
+.delay {
+  animation-delay: 1s;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.8); opacity: 0.5; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+
+/* -------- Restaurant Selection Grid -------- */
+.section-restaurants {
+  padding: 8rem 4rem;
+  background: white;
+}
+
+.text-center {
+  text-align: center;
+  margin-bottom: 5rem;
+}
+
+.text-center .section-heading::after {
+  left: 50%;
+  margin-left: -20px;
+}
+
+.section-subtext {
+  font-size: 1.125rem;
+  color: #6b7280;
+  margin-top: 1.5rem;
+}
+
+.restaurant-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.gallery-card {
+  cursor: pointer;
+}
+
+.gallery-img-wrapper {
+  position: relative;
+  height: 250px;
+  background: #fbf6ec;
+}
+
+.gallery-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.overlay-batch-status {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+.status-badge {
+  background: rgba(255,255,255,0.9);
+  color: #3a2b24;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(184, 149, 98, 0.3);
+}
+
+.gallery-info {
+  padding: 1.5rem;
+  background: #fbf6ec; /* Cream inner base */
+  color: #3a2b24;
+}
+
+.restaurant-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  margin: 0 0 0.5rem 0;
+  font-weight: 600;
+}
+
+.restaurant-meta {
+  color: #6a5d55;
+  font-size: 0.85rem;
+  margin-bottom: 1.5rem;
+}
+
+.btn-gallery {
+  width: 100%;
+  background: transparent;
+  border: 1px solid #b89562;
+  color: #3a2b24;
+  padding: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-gallery:hover {
+  background: #b89562;
+  color: white;
+}
+
+/* -------- Elegant Footer -------- */
+.elegant-footer {
+  background: #3a2b24;
+  color: white;
+  padding: 4rem;
+  text-align: center;
+}
+
+.footer-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  color: #b89562;
+  margin-bottom: 1rem;
+}
+
+.footer-copy {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+}
+
+/* Fade in animations */
+.fade-in {
+  animation: fadeIn 1.2s ease-out forwards;
+}
+
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: scrollReveal 1s ease-out forwards;
+  animation-play-state: paused;
+}
+
+.scroll-reveal.in-view {
+  animation-play-state: running;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scrollReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

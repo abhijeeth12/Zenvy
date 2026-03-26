@@ -1,0 +1,333 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── USERS ─────────────────────────────────────────────
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  displayName  String   @map("display_name")
+  avatarUrl    String?  @map("avatar_url")
+  role         Role     @default(USER)
+  isVerified   Boolean  @default(false) @map("is_verified")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  resetPasswordToken   String?   @map("reset_password_token")
+  resetPasswordExpires DateTime? @map("reset_password_expires")
+
+  walletBalance      Float     @default(0) @map("wallet_balance")
+
+  batches       Batch[]            @relation("BatchCreator")
+  participants  BatchParticipant[]
+  orders        Order[]
+  transactions  WalletTransaction[]
+  messages      ChatMessage[]
+  notifications Notification[]
+  refreshTokens RefreshToken[]
+  addresses     UserAddress[]
+  cart          Cart?
+
+  @@index([email])
+  @@map("users")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+// ─── REFRESH TOKENS ────────────────────────────────────
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String   @map("user_id")
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  revoked   Boolean  @default(false)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([token])
+  @@index([userId])
+  @@map("refresh_tokens")
+}
+
+// ─── WALLET TRANSACTIONS ───────────────────────────────
+model WalletTransaction {
+  id          String   @id @default(cuid())
+  userId      String   @map("user_id")
+  amount      Float
+  type        TransactionType
+  status      TransactionStatus @default(COMPLETED)
+  description String?
+  referenceId String?  @map("reference_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("wallet_transactions")
+}
+
+enum TransactionType {
+  CREDIT
+  DEBIT
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+// ─── RESTAURANTS ───────────────────────────────────────
+model Restaurant {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  cuisine     String
+  description String?
+  imageUrl    String?  @map("image_url")
+  address     String
+  latitude    Float?
+  longitude   Float?
+  rating      Float    @default(0)
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  menuItems MenuItem[]
+  batches   Batch[]
+
+  @@index([slug])
+  @@index([cuisine])
+  @@index([isActive])
+  @@map("restaurants")
+}
+
+// ─── MENU ITEMS ────────────────────────────────────────
+model MenuItem {
+  id           String  @id @default(cuid())
+  restaurantId String  @map("restaurant_id")
+  name         String
+  description  String?
+  price        Float
+  batchPrice   Float   @map("batch_price")
+  category     String  @default("Main")
+  imageUrl     String? @map("image_url")
+  isAvailable  Boolean @default(true) @map("is_available")
+  sortOrder    Int     @default(0) @map("sort_order")
+
+  restaurant Restaurant  @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  orderItems OrderItem[]
+  CartItem   CartItem[]
+
+  @@index([restaurantId])
+  @@map("menu_items")
+}
+
+// ─── BATCHES ───────────────────────────────────────────
+model Batch {
+  id              String      @id @default(cuid())
+  creatorId       String      @map("creator_id")
+  restaurantId    String      @map("restaurant_id")
+  status          BatchStatus @default(OPEN)
+  maxParticipants Int         @default(10) @map("max_participants")
+  lockAt          DateTime    @map("lock_at")
+  closesAt        DateTime    @map("closes_at")
+  deliveryEta     DateTime?   @map("delivery_eta")
+  soloDeliveryFee Float       @default(15) @map("solo_delivery_fee")
+  createdAt       DateTime    @default(now()) @map("created_at")
+  updatedAt       DateTime    @updatedAt @map("updated_at")
+
+  creator      User               @relation("BatchCreator", fields: [creatorId], references: [id])
+  restaurant   Restaurant         @relation(fields: [restaurantId], references: [id])
+  participants BatchParticipant[]
+  orders       Order[]
+  messages     ChatMessage[]
+  CartItems    CartItem[]
+
+  @@index([status])
+  @@index([restaurantId])
+  @@index([closesAt])
+  @@index([creatorId])
+  @@map("batches")
+}
+
+enum BatchStatus {
+  OPEN
+  LOCKED
+  CLOSED
+  ORDERED
+  IN_TRANSIT
+  DELIVERED
+  CANCELLED
+}
+
+// ─── BATCH PARTICIPANTS ────────────────────────────────
+model BatchParticipant {
+  id       String   @id @default(cuid())
+  userId   String   @map("user_id")
+  batchId  String   @map("batch_id")
+  alias    String   @default("Anon")
+  joinedAt DateTime @default(now()) @map("joined_at")
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  batch Batch @relation(fields: [batchId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, batchId])
+  @@index([batchId])
+  @@map("batch_participants")
+}
+
+// ─── ORDERS ────────────────────────────────────────────
+model Order {
+  id               String      @id @default(cuid())
+  userId           String      @map("user_id")
+  batchId          String      @map("batch_id")
+  status           OrderStatus @default(PENDING)
+  subtotal         Float
+  deliveryFeeShare Float       @map("delivery_fee_share")
+  driverTip        Float       @default(0) @map("driver_tip")
+  total            Float
+  paymentMethod    PaymentMethod @default(WALLET) @map("payment_method")
+  paymentStatus    PaymentStatus @default(PENDING) @map("payment_status")
+  createdAt        DateTime    @default(now()) @map("created_at")
+  updatedAt        DateTime    @updatedAt @map("updated_at")
+
+  user  User        @relation(fields: [userId], references: [id])
+  batch Batch       @relation(fields: [batchId], references: [id])
+  items OrderItem[]
+
+  @@index([userId])
+  @@index([batchId])
+  @@map("orders")
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PREPARING
+  DELIVERED
+  CANCELLED
+}
+
+enum PaymentMethod {
+  WALLET
+  COD
+}
+
+enum PaymentStatus {
+  PENDING
+  AUTHORIZED
+  PAID
+  FAILED
+}
+
+// ─── ORDER ITEMS ───────────────────────────────────────
+model OrderItem {
+  id         String @id @default(cuid())
+  orderId    String @map("order_id")
+  menuItemId String @map("menu_item_id")
+  quantity   Int    @default(1)
+  unitPrice  Float  @map("unit_price")
+
+  order    Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  menuItem MenuItem @relation(fields: [menuItemId], references: [id])
+
+  @@index([orderId])
+  @@map("order_items")
+}
+
+// ─── CHAT MESSAGES ─────────────────────────────────────
+model ChatMessage {
+  id        String   @id @default(cuid())
+  batchId   String   @map("batch_id")
+  userId    String   @map("user_id")
+  alias     String
+  content   String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  batch Batch @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id])
+
+  @@index([batchId, createdAt])
+  @@map("chat_messages")
+}
+
+// ─── NOTIFICATIONS ─────────────────────────────────────
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  type      String
+  title     String
+  body      String
+  data      Json?
+  isRead    Boolean  @default(false) @map("is_read")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead])
+  @@index([createdAt])
+  @@map("notifications")
+}
+
+// ─── USER ADDRESSES ────────────────────────────────────
+model UserAddress {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  label     String   @default("Home") // e.g. Home, Work
+  line1     String
+  line2     String?
+  city      String
+  state     String
+  zip       String
+  isDefault Boolean  @default(false) @map("is_default")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("user_addresses")
+}
+
+// ─── CART ──────────────────────────────────────────────
+// A persistent cart for a user (not yet an order)
+model Cart {
+  id        String   @id @default(cuid())
+  userId    String   @unique @map("user_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user  User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items CartItem[]
+
+  @@map("carts")
+}
+
+// ─── CART ITEMS ────────────────────────────────────────
+model CartItem {
+  id         String   @id @default(cuid())
+  cartId     String   @map("cart_id")
+  batchId    String   @map("batch_id")
+  menuItemId String   @map("menu_item_id")
+  quantity   Int      @default(1)
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  cart     Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  batch    Batch    @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  menuItem MenuItem @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+
+  @@unique([cartId, batchId, menuItemId])
+  @@map("cart_items")
+}

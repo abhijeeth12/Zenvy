@@ -1,0 +1,102 @@
+# Refined Batch → Cart → Order Flow
+
+Restructure the flow so menu is shown immediately, cart is batch-specific, and joining happens after payment selection.
+
+## New User Flow
+
+```mermaid
+flowchart LR
+    A["Dashboard\n(Batch cards)"] --> B["Batch Page\n(Menu visible immediately)"]
+    B --> C["Add items to Cart\n(batch-specific)"]
+    C --> D["Checkout\n(Select AutoPay/COD)"]
+    D --> E["Join Batch + Place Order\n(member count increases)"]
+    E --> F["Orders Page\n(View all orders)"]
+```
+
+> [!IMPORTANT]
+> Key difference from before: **User does NOT join the batch first.** They browse the menu, add to cart, then join + pay in one step at checkout.
+
+## Proposed Changes
+
+### CartContext
+
+#### [MODIFY] [CartContext.tsx](file:///a:/Projects/Velo/src/contexts/CartContext.tsx)
+
+- When `activeBatchId` changes to a different batch, auto-clear previous batch's cart items
+- On navigation away from batch page without completing payment, clear cart
+- Keep `activeBatchId` + `paymentMethod` state
+
+---
+
+### Batch Active Page
+
+#### [MODIFY] [BatchActivePage.tsx](file:///a:/Projects/Velo/src/pages/BatchActivePage.tsx)
+
+Major changes:
+- **Remove join gate** — menu is visible and interactive immediately
+- Set `activeBatchId` on page load (not after join)
+- Show menu items with images (use `item.imageUrl` from DB, fallback to food asset images)
+- Show batch info: restaurant name, image, members, time remaining
+- **Cancel/Leave batch**: Button visible when user has active order in this batch
+  - Disabled when ≤ 10 min before `lockAt` time
+- Remove the "Join this Batch" card entirely
+- Show estimated price range in hero badges
+
+---
+
+### Checkout — Join + Pay Combined
+
+#### [MODIFY] [CheckoutPage.tsx](file:///a:/Projects/Velo/src/pages/CheckoutPage.tsx)
+
+- Payment method selection (AutoPay / COD)
+- On "Place Order":
+  1. Call `POST /batches/:id/join` (silent 409 if already joined)  
+  2. Call `POST /orders` with `paymentMethod`
+  3. Clear cart
+  4. Navigate to success screen
+- This is when member count increases (join happens here)
+- Show estimated total before, confirm actual after
+
+---
+
+### Orders Page — New
+
+#### [NEW] [OrdersPage.tsx](file:///a:/Projects/Velo/src/pages/OrdersPage.tsx)
+
+- Calls `GET /orders/my` (backend already exists)
+- Card-based list UI showing:
+  - Restaurant name + image
+  - Order status badge
+  - Item count, total amount
+  - Payment method (Wallet/COD)
+  - Date
+- Click → navigates to `/order/:id`
+
+---
+
+### Order Details Page — Fix
+
+#### [MODIFY] [OrderDetailsPage.tsx](file:///a:/Projects/Velo/src/pages/OrderDetailsPage.tsx)
+
+- Fix `order.totalAmount` → `order.total` (matching Prisma schema)
+- Fix `item.price` → `item.unitPrice`
+- Add restaurant name from `order.batch.restaurant.name`
+- Improve UI with better status badges and layout
+
+---
+
+### App Routing + Navigation
+
+#### [MODIFY] [App.tsx](file:///a:/Projects/Velo/src/App.tsx)
+
+- Add: `import OrdersPage` and `/orders` route
+
+#### [MODIFY] [AppLayout.tsx](file:///a:/Projects/Velo/src/layouts/AppLayout.tsx)
+
+- Add `ORDERS` nav item between `MY BATCHES` and `WALLET`
+
+## Verification Plan
+
+- Start dev server with `npm run dev`
+- Test: Dashboard → click batch card → menu shown immediately → add items → checkout → select payment → order placed → appears on Orders page
+- Test: Navigate away from batch without paying → cart should be empty
