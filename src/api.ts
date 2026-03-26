@@ -1,4 +1,4 @@
-const BASE_URL = '/api/v1';
+const BASE_URL = (import.meta.env.VITE_API_URL || '') + '/api/v1';
 
 class ApiError extends Error {
   constructor(public status: number, public data: any) {
@@ -11,9 +11,9 @@ export const apiClient = {
     const token = localStorage.getItem('zenvy_token');
     
     // Inject Authorization header if we have a token
-    const headers: HeadersInit = {
+    const headers: Record<string, string> = {
       'Content-Type': 'application/json',
-      ...options.headers,
+      ...(options.headers as Record<string, string>),
     };
     if (token) {
       headers['Authorization'] = `Bearer ${token}`;
