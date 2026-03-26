@@ -62,7 +62,7 @@ export class RestaurantsService {
 
   async getById(id: string) {
     // Try cache first
-    const cached = await redis.get(`restaurant:${id}`).catch(() => null);
+    const cached = await redis?.get(`restaurant:${id}`).catch(() => null);
     if (cached) return JSON.parse(cached);
 
     const restaurant = await prisma.restaurant.findUnique({

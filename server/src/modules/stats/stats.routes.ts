@@ -7,7 +7,7 @@ export async function statsRoutes(app: FastifyInstance) {
   // Public — no auth required
   app.get('/stats/platform', async (_request, reply) => {
     // Try cache first
-    const cached = await redis.get('stats:platform').catch(() => null);
+    const cached = await redis?.get('stats:platform').catch(() => null);
     if (cached) {
       return sendSuccess(reply, JSON.parse(cached));
     }
