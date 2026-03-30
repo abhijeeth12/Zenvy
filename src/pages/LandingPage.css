@@ -1,9 +1,11 @@
-/* -------- Global Layout resets specific to Premium Flow -------- */
 .layout {
   min-height: 100vh;
+  min-height: 100dvh;
   background-color: var(--color-background);
   font-family: 'Inter', sans-serif;
   color: #333;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 h1,
@@ -88,6 +90,8 @@ h4,
 /* -------- Hero Section with Parallax -------- */
 .parallax-hero {
   height: 100vh;
+  height: 100dvh;
+  width: 100%;
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
@@ -98,6 +102,9 @@ h4,
   text-align: center;
   color: white;
   position: relative;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
 
 .hero-content {
