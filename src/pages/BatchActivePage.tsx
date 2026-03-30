@@ -159,25 +159,33 @@ export default function BatchActivePage() {
                 key={item.id}
                 style={{
                   display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  padding: '1.25rem',
+                  gap: '1.5rem',
+                  padding: '1.5rem',
                   background: '#fff',
-                  border: '1px solid rgba(44,36,32,0.06)',
-                  borderRadius: '12px',
-                  transition: 'all 0.2s',
-                  boxShadow: '0 2px 8px rgba(0,0,0,0.02)',
+                  borderRadius: '16px',
+                  border: '1px solid #f0f0f0',
+                  alignItems: 'center',
+                  transition: 'box-shadow 0.2s',
+                  cursor: 'default'
                 }}
-                onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,0,0,0.05)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.02)'; }}
+                onMouseEnter={(e) => e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.04)'}
+                onMouseLeave={(e) => e.currentTarget.style.boxShadow = 'none'}
               >
-                <div>
-                  <h3 style={{ fontSize: '1rem', margin: '0 0 0.3rem 0', color: '#2c2420', fontWeight: 700 }}>{item.name}</h3>
-                  <p style={{ color: '#6a5d55', fontSize: '0.85rem', margin: '0 0 0.5rem 0' }}>{item.description || 'Premium selection.'}</p>
+                {item.imageUrl && (
+                  <div style={{ width: '80px', height: '80px', borderRadius: '12px', overflow: 'hidden', flexShrink: 0 }}>
+                    <img src={item.imageUrl} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  </div>
+                )}
+                
+                <div style={{ flex: 1 }}>
+                  <h3 style={{ margin: '0 0 0.4rem 0', fontFamily: 'Playfair Display, serif', fontSize: '1.25rem', color: '#2c2420', fontWeight: 700 }}>{item.name}</h3>
+                  <p style={{ margin: '0 0 0.75rem 0', color: '#8a7d76', fontSize: '0.85rem', lineHeight: 1.5 }}>
+                    {item.description || 'Premium selection.'}
+                  </p>
                   <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
-                    <span style={{ color: '#c96442', fontWeight: 700, fontSize: '1rem' }}>${item.price.toFixed(2)}</span>
+                    <span style={{ color: '#c96442', fontWeight: 700, fontSize: '1.1rem' }}>₹{item.price}</span>
                     {item.batchPrice && item.batchPrice < item.price && (
-                      <span style={{ color: '#8a7d76', fontSize: '0.8rem', textDecoration: 'line-through' }}>${item.price.toFixed(2)}</span>
+                      <span style={{ color: '#a39b95', fontSize: '0.9rem', textDecoration: 'line-through' }}>₹{item.price}</span>
                     )}
                   </div>
                 </div>
@@ -185,13 +193,13 @@ export default function BatchActivePage() {
                 <button
                   onClick={(e) => { e.stopPropagation(); addToCart(item.id, 1); }}
                   style={{
-                    background: '#f0ede6',
+                    background: '#f4f1ec',
                     color: '#2c2420',
                     border: 'none',
-                    width: '40px',
-                    height: '40px',
-                    borderRadius: '10px',
-                    fontSize: '1.3rem',
+                    width: '44px',
+                    height: '44px',
+                    borderRadius: '12px',
+                    fontSize: '1.4rem',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -200,8 +208,8 @@ export default function BatchActivePage() {
                     flexShrink: 0,
                     fontWeight: 600,
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.background = '#e4e1dd')}
-                  onMouseLeave={(e) => (e.currentTarget.style.background = '#f0ede6')}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = '#e6e2db')}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = '#f4f1ec')}
                 >
                   +
                 </button>

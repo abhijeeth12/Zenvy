@@ -83,26 +83,59 @@ export default function RestaurantMenuPage() {
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', gap: '1.5rem' }}>
             {restaurant.menuItems.map((item: any) => (
-              <div key={item.id} style={{ display: 'flex', gap: '1.5rem', padding: '1.5rem', background: '#fff', borderRadius: '12px', border: '1px solid rgba(44,36,32,0.06)', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}>
-                <div style={{ flex: 1 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
-                    <h3 style={{ margin: 0, fontSize: '1.25rem', color: '#2c2420', fontWeight: 600 }}>{item.name}</h3>
-                    <div style={{ fontSize: '1.15rem', fontWeight: 700, color: '#c96442' }}>
-                      ₹{item.price}
-                    </div>
-                  </div>
-                  <p style={{ margin: '0 0 1rem 0', color: '#6a5d55', fontSize: '0.95rem', lineHeight: 1.6 }}>
-                    {item.description || 'A delicious and premium offering from our kitchen, prepared with the finest ingredients.'}
-                  </p>
-                  <div style={{ fontSize: '0.8rem', color: '#10b981', fontWeight: 600, background: 'rgba(16,185,129,0.1)', display: 'inline-block', padding: '0.25rem 0.6rem', borderRadius: '6px' }}>
-                    Batch Price: ₹{item.batchPrice}
-                  </div>
-                </div>
+              <div key={item.id} style={{ display: 'flex', gap: '1.5rem', padding: '1.5rem', background: '#fff', borderRadius: '16px', border: '1px solid #f0f0f0', alignItems: 'center', transition: 'box-shadow 0.2s', cursor: 'default' }}
+                   onMouseEnter={(e) => e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.04)'}
+                   onMouseLeave={(e) => e.currentTarget.style.boxShadow = 'none'}>
+                
                 {item.imageUrl && (
-                  <div style={{ width: '130px', height: '130px', borderRadius: '8px', overflow: 'hidden', flexShrink: 0 }}>
+                  <div style={{ width: '100px', height: '100px', borderRadius: '12px', overflow: 'hidden', flexShrink: 0 }}>
                     <img src={item.imageUrl} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </div>
                 )}
+                
+                <div style={{ flex: 1 }}>
+                  <h3 style={{ margin: '0 0 0.4rem 0', fontFamily: 'Playfair Display, serif', fontSize: '1.35rem', color: '#2c2420', fontWeight: 700 }}>{item.name}</h3>
+                  <p style={{ margin: '0 0 1rem 0', color: '#8a7d76', fontSize: '0.95rem', lineHeight: 1.5, maxWidth: '600px' }}>
+                    {item.description || 'A delicious and premium offering from our kitchen, prepared with the finest ingredients.'}
+                  </p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                    <span style={{ fontSize: '1.1rem', fontWeight: 700, color: '#c96442' }}>
+                      ₹{item.batchPrice || item.price}
+                    </span>
+                    {item.batchPrice && item.batchPrice < item.price && (
+                      <span style={{ fontSize: '0.9rem', color: '#a39b95', textDecoration: 'line-through' }}>
+                        ₹{item.price}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    alert("To order items, please create or join an active batch from the dashboard.");
+                  }}
+                  style={{
+                    background: '#f4f1ec',
+                    color: '#2c2420',
+                    border: 'none',
+                    width: '44px',
+                    height: '44px',
+                    borderRadius: '12px',
+                    fontSize: '1.4rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s',
+                    flexShrink: 0,
+                    fontWeight: 600,
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = '#e6e2db')}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = '#f4f1ec')}
+                >
+                  +
+                </button>
               </div>
             ))}
           </div>

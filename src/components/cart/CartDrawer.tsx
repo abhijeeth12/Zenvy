@@ -55,23 +55,28 @@ export default function CartDrawer() {
               </button>
             </div>
           ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               {cart.items.map(item => (
-                <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', paddingBottom: '1.25rem', borderBottom: '1px solid rgba(44,36,32,0.05)' }}>
+                <div key={item.id} style={{ display: 'flex', gap: '1rem', alignItems: 'center', padding: '1rem', background: '#fff', borderRadius: '12px', border: '1px solid #f0f0f0', boxShadow: '0 2px 8px rgba(0,0,0,0.02)' }}>
+                  {item.menuItem.imageUrl && (
+                    <div style={{ width: '64px', height: '64px', borderRadius: '8px', overflow: 'hidden', flexShrink: 0 }}>
+                      <img src={item.menuItem.imageUrl} alt={item.menuItem.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    </div>
+                  )}
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: '0.95rem', fontWeight: 600, color: '#2c2420', marginBottom: '0.2rem' }}>{item.menuItem.name}</div>
-                    <div style={{ fontSize: '0.8rem', color: '#8a7d76', marginBottom: '0.4rem' }}>
+                    <div style={{ fontSize: '1.05rem', fontWeight: 700, fontFamily: 'Playfair Display, serif', color: '#2c2420', marginBottom: '0.1rem' }}>{item.menuItem.name}</div>
+                    <div style={{ fontSize: '0.75rem', color: '#8a7d76', marginBottom: '0.4rem' }}>
                       {item.batch?.restaurant?.name || 'Restaurant'}
                     </div>
-                    <div style={{ fontSize: '0.9rem', color: '#c96442', fontWeight: 700 }}>${item.menuItem.price.toFixed(2)}</div>
+                    <div style={{ fontSize: '0.95rem', color: '#c96442', fontWeight: 700 }}>₹{item.menuItem.price}</div>
                   </div>
                   
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', background: '#f9f8f6', padding: '0.35rem', borderRadius: '8px', border: '1px solid rgba(44,36,32,0.05)' }}>
-                    <button onClick={() => updateItemQuantity(item.id, item.quantity - 1)} style={{ background: '#fff', border: '1px solid rgba(44,36,32,0.08)', borderRadius: '4px', width: '26px', height: '26px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#2c2420' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', background: '#f9f8f6', padding: '0.35rem', borderRadius: '8px', border: '1px solid #f0f0f0' }}>
+                    <button onClick={() => updateItemQuantity(item.id, item.quantity - 1)} style={{ background: '#fff', border: '1px solid #e8e6e3', borderRadius: '6px', width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#2c2420', transition: 'background 0.15s' }} onMouseEnter={e => e.currentTarget.style.background = '#f4f1ec'} onMouseLeave={e => e.currentTarget.style.background = '#fff'}>
                       <Minus size={14} />
                     </button>
                     <span style={{ fontSize: '0.9rem', fontWeight: 700, color: '#2c2420', minWidth: '18px', textAlign: 'center' }}>{item.quantity}</span>
-                    <button onClick={() => updateItemQuantity(item.id, item.quantity + 1)} style={{ background: '#fff', border: '1px solid rgba(44,36,32,0.08)', borderRadius: '4px', width: '26px', height: '26px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#2c2420' }}>
+                    <button onClick={() => updateItemQuantity(item.id, item.quantity + 1)} style={{ background: '#fff', border: '1px solid #e8e6e3', borderRadius: '6px', width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#2c2420', transition: 'background 0.15s' }} onMouseEnter={e => e.currentTarget.style.background = '#f4f1ec'} onMouseLeave={e => e.currentTarget.style.background = '#fff'}>
                       <Plus size={14} />
                     </button>
                   </div>

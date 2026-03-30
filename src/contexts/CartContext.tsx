@@ -11,6 +11,7 @@ interface CartItem {
     id: string;
     name: string;
     price: number;
+    imageUrl?: string;
   };
   batch: {
     id: string;
@@ -114,7 +115,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         batchId: _activeBatchId,
       });
       setCart(updatedCart);
-      setIsDrawerOpen(true);
+      // Removed setIsDrawerOpen(true) to avoid auto-opening the cart side panel
     } catch (err: any) {
       alert(err.message || 'Failed to add item to cart');
     } finally {
