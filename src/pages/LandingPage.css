@@ -227,185 +227,126 @@ h1, h2, h3, h4, .hero-title, .section-heading {
 }
 
 /* -------- Parallax Divider & Dashboard -------- */
-.parallax-divider {
-  padding: 10rem 4rem;
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: relative;
-  min-height: 80vh;
-  display: flex;
-  align-items: center;
+/* -------- Dashboard / Network Overview Section -------- */
+.section-overview {
+  padding: 12rem 4rem;
+  background: #fdfbf8;
+  border-top: 1px solid rgba(44, 36, 32, 0.05);
+  border-bottom: 1px solid rgba(44, 36, 32, 0.05);
   overflow: hidden;
+  position: relative;
 }
 
-.parallax-divider::before {
+/* Subtle background graphic or texture */
+.section-overview::before {
   content: '';
   position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center, transparent 0%, rgba(20, 16, 14, 0.4) 100%);
-  z-index: 1;
+  top: -10%;
+  right: -5%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(201, 100, 66, 0.03) 0%, transparent 70%);
+  pointer-events: none;
 }
 
-.dashboard-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  width: 100%;
-  position: relative;
-  z-index: 2;
+.overview-header {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 6rem;
 }
 
-.light-heading {
-  font-family: 'Playfair Display', serif;
-  font-size: 3.5rem;
-  letter-spacing: -0.02em;
-  color: white;
-  margin-bottom: 0.5rem;
-}
-
-.light-heading::after {
-  background: #c96442;
-  width: 60px;
-  height: 3px;
-  bottom: -1rem;
-}
-
-.light-subheading {
-  font-size: 1.25rem;
-  opacity: 0.9;
-  margin-top: 2rem;
-  margin-bottom: 5rem;
-  font-weight: 300;
-  color: #f9f8f6;
-}
-
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2.5rem;
-}
-
-.dash-card {
-  background: rgba(251, 246, 236, 0.08); /* Darker glass for better contrast on images */
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 3rem;
-  border-radius: 20px;
-  display: flex;
-  flex-direction: column;
-  color: #f9f8f6;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-}
-
-.dash-card:hover {
-  transform: translateY(-10px);
-  background: rgba(251, 246, 236, 0.12);
-  border-color: rgba(201, 100, 66, 0.4);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-}
-
-.dash-title {
+.overview-tag {
   font-family: 'Inter', sans-serif;
   font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
   font-weight: 700;
-  color: #c96442; /* Terra Cotta Accent */
+  letter-spacing: 0.3em;
+  color: #c96442;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.overview-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.5rem;
+  color: #2c2420;
+  line-height: 1.2;
+}
+
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.insight-item {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.insight-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 5rem;
+  color: #2c2420;
+  margin-bottom: 1rem;
+  position: relative;
+  display: inline-block;
+  font-weight: 400;
+}
+
+.insight-value::after {
+  content: '';
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: rgba(201, 100, 66, 0.1);
+  z-index: -1;
+}
+
+.insight-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #c96442;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   margin-bottom: 1.5rem;
 }
 
-.dash-metric {
-  font-size: 4.5rem;
-  font-weight: 400;
-  font-family: 'Playfair Display', serif;
-  margin-bottom: 2rem;
-  color: white;
-  line-height: 1;
+.insight-sub {
+  font-size: 1rem;
+  color: #8a7d76;
+  line-height: 1.6;
+  max-width: 250px;
 }
 
-.text-emerald {
-  color: white; /* Maintain white for readability on glass */
-}
-
-/* Enhanced CSS Chart */
-.dash-chart {
+/* Visualization elements */
+.viz-dots {
   display: flex;
-  align-items: flex-end;
-  gap: 10px;
-  height: 80px;
-  margin-top: auto;
+  gap: 4px;
+  margin-top: 2rem;
 }
 
-.bar {
-  flex: 1;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
-  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.active-bar {
-  background: linear-gradient(to top, #c96442, #ff8c69);
-  box-shadow: 0 0 20px rgba(201, 100, 66, 0.4);
-}
-
-.dash-card:hover .bar {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-/* Progress Track */
-.progress-track {
+.dot-viz {
+  width: 6px;
   height: 6px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  margin-top: auto;
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(to right, #c96442, #ff8c69);
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(201, 100, 66, 0.5);
-}
-
-/* Batch Pulse */
-.batch-pulse-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 80px;
-  width: 80px;
-  margin-top: auto;
-  color: #c96442;
-}
-
-.pulse-ring {
-  position: absolute;
-  width: 100%;
-  height: 100%;
   border-radius: 50%;
-  border: 2px solid #c96442;
-  animation: pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  opacity: 0;
+  background: #e2d9d4;
 }
 
-.delay {
-  animation-delay: 1s;
+.dot-viz-active {
+  background: #c96442;
+  box-shadow: 0 0 10px rgba(201, 100, 66, 0.4);
 }
-
-@keyframes pulse {
-  0% { transform: scale(0.8); opacity: 0.5; }
-  100% { transform: scale(1.5); opacity: 0; }
-}
-
 
 /* -------- Restaurant Selection Grid -------- */
 .section-restaurants {
-  padding: 8rem 4rem;
+  padding: 10rem 4rem;
   background: white;
 }
 

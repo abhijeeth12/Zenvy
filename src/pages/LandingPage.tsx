@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Utensils, Users, TrendingDown, Clock } from 'lucide-react';
+import { ArrowRight, Utensils, Users, TrendingDown } from 'lucide-react';
 import './LandingPage.css';
 
 // Using the newly generated premium assets
@@ -9,7 +9,7 @@ import imgBowl from '../assets/artisan_salad.png';
 import imgSushi from '../assets/omakase.png';
 import imgSteak from '../assets/steakhouse.png';
 import imgLifestyle from '../assets/lifestyle_dining.png';
-import imgPasta from '../assets/minimalist_pasta.png';
+
 
 function LandingPage() {
   const [scrolled, setScrolled] = useState(false);
@@ -101,48 +101,44 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* Dashboard & Overview Section with Dark Parallax Break */}
-      <section 
-        id="overview" 
-        className="parallax-divider"
-        style={{ backgroundImage: `linear-gradient(rgba(17,24,39,0.9), rgba(17,24,39,0.9)), url(${imgPasta})` }}
-      >
-        <div className="dashboard-container scroll-reveal">
-          <div className="dashboard-header">
-            <h2 className="section-heading light-heading">PLATFORM OVERVIEW</h2>
-            <p className="light-subheading">Real-time collaborative analytics at your fingertips.</p>
+      {/* Reimagined Overview Section — Blended with Brand Aesthetic */}
+      <section id="overview" className="section-overview">
+        <div className="overview-header scroll-reveal">
+          <span className="overview-tag">Network Impact</span>
+          <h2 className="overview-title">Quantifying the Art of <br/>Collective Dining</h2>
+        </div>
+        
+        <div className="overview-grid">
+          <div className="insight-item scroll-reveal" style={{ transitionDelay: '0.1s' }}>
+            <div className="insight-label">Collective Savings</div>
+            <div className="insight-value">$2.4M+</div>
+            <p className="insight-sub">Total logistical dividends returned to our global community of food connoisseurs.</p>
+            <div className="viz-dots">
+              {[...Array(5)].map((_, i) => (
+                <div key={i} className={`dot-viz ${i < 4 ? 'dot-viz-active' : ''}`} />
+              ))}
+            </div>
           </div>
           
-          <div className="dashboard-grid">
-            <div className="dash-card">
-              <h4 className="dash-title">Total Platform Savings</h4>
-              <div className="dash-metric text-emerald">$2.4M</div>
-              <div className="dash-chart">
-                {/* CSS Mock Chart */}
-                <div className="bar" style={{height: '40%'}}></div>
-                <div className="bar" style={{height: '60%'}}></div>
-                <div className="bar" style={{height: '50%'}}></div>
-                <div className="bar" style={{height: '80%'}}></div>
-                <div className="bar active-bar" style={{height: '100%'}}></div>
-              </div>
+          <div className="insight-item scroll-reveal" style={{ transitionDelay: '0.2s' }}>
+            <div className="insight-label">Active Formations</div>
+            <div className="insight-value">1,402</div>
+            <p className="insight-sub">Batches currently synchronized across premium urban kitchens worldwide.</p>
+            <div className="viz-dots">
+              {[...Array(5)].map((_, i) => (
+                <div key={i} className={`dot-viz ${i < 3 ? 'dot-viz-active' : ''}`} />
+              ))}
             </div>
-            
-            <div className="dash-card">
-              <h4 className="dash-title">Active Live Batches</h4>
-              <div className="dash-metric">1,402</div>
-              <div className="batch-pulse-container">
-                <div className="pulse-ring"></div>
-                <div className="pulse-ring delay"></div>
-                <MapPinIcon />
-              </div>
-            </div>
+          </div>
 
-            <div className="dash-card">
-              <h4 className="dash-title">Avg. Wait Time Reduction</h4>
-              <div className="dash-metric">24%</div>
-              <div className="progress-track">
-                <div className="progress-fill" style={{width: '76%'}}></div>
-              </div>
+          <div className="insight-item scroll-reveal" style={{ transitionDelay: '0.3s' }}>
+            <div className="insight-label">Wait Efficiency</div>
+            <div className="insight-value">24%</div>
+            <p className="insight-sub">Average reduction in turnaround time through intelligent collective routing.</p>
+            <div className="viz-dots">
+              {[...Array(5)].map((_, i) => (
+                <div key={i} className={`dot-viz ${i < 2 ? 'dot-viz-active' : ''}`} />
+              ))}
             </div>
           </div>
         </div>
@@ -208,11 +204,6 @@ function LandingPage() {
   );
 }
 
-const MapPinIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide-pin">
-    <line x1="12" y1="17" x2="12" y2="22"></line>
-    <path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.68V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3v4.68a2 2 0 0 1-1.11 1.87l-1.78.9A2 2 0 0 0 5 15.24Z"></path>
-  </svg>
-)
+
 
 export default LandingPage;
