@@ -82,7 +82,52 @@ async function main() {
     },
   });
 
-  console.log(`  ✅ Restaurants: ${matsuhisa.name}, ${wolfgangPuck.name}, ${sweetgreen.name}`);
+  const eataly = await prisma.restaurant.upsert({
+    where: { slug: 'eataly-express' },
+    update: {},
+    create: {
+      name: 'Eataly Express',
+      slug: 'eataly-express',
+      cuisine: 'Italian',
+      description: 'Authentic Italian pasta and pizza on the go.',
+      address: '10250 Santa Monica Blvd, Los Angeles, CA 90067',
+      rating: 4.7,
+      latitude: 34.0583,
+      longitude: -118.4168,
+    },
+  });
+
+  const shakeShack = await prisma.restaurant.upsert({
+    where: { slug: 'shake-shack-premium' },
+    update: {},
+    create: {
+      name: 'Shake Shack Premium',
+      slug: 'shake-shack-premium',
+      cuisine: 'American',
+      description: 'Classic American burgers and shakes with a modern twist.',
+      address: '8520 Santa Monica Blvd, West Hollywood, CA 90069',
+      rating: 4.5,
+      latitude: 34.0905,
+      longitude: -118.3768,
+    },
+  });
+
+  const pokeParadise = await prisma.restaurant.upsert({
+    where: { slug: 'poke-paradise' },
+    update: {},
+    create: {
+      name: 'Poke Paradise',
+      slug: 'poke-paradise',
+      cuisine: 'Hawaiian',
+      description: 'Fresh Hawaiian poke bowls made to order.',
+      address: '735 S Figueroa St, Los Angeles, CA 90017',
+      rating: 4.7,
+      latitude: 34.0487,
+      longitude: -118.2599,
+    },
+  });
+
+  console.log(`  ✅ Restaurants: ${matsuhisa.name}, ${wolfgangPuck.name}, ${sweetgreen.name}, ${eataly.name}, ${shakeShack.name}, ${pokeParadise.name}`);
 
   // ─── Menu Items (Matsuhisa) ────────────────────────
   await prisma.menuItem.createMany({
@@ -113,6 +158,33 @@ async function main() {
       { restaurantId: sweetgreen.id, name: 'Kale Caesar', description: 'Shaved parmesan, focaccia croutons, lemon caesar.', price: 12, batchPrice: 9, category: 'Bowls', sortOrder: 2 },
       { restaurantId: sweetgreen.id, name: 'Shroomami', description: 'Warm wild rice, roasted mushrooms, tofu, miso sesame.', price: 13, batchPrice: 10, category: 'Bowls', sortOrder: 3 },
       { restaurantId: sweetgreen.id, name: 'Guacamole Greens', description: 'Avocado, black beans, tortilla chips, lime cilantro.', price: 14, batchPrice: 11, category: 'Bowls', sortOrder: 4 },
+    ],
+    skipDuplicates: true,
+  });
+
+  // ─── Menu Items (Eataly) ───────────────────────
+  await prisma.menuItem.createMany({
+    data: [
+      { restaurantId: eataly.id, name: 'Margherita Pizza', description: 'Classic pizza with fresh mozzarella and basil.', price: 18, batchPrice: 14, category: 'Pizza', sortOrder: 1 },
+      { restaurantId: eataly.id, name: 'Spaghetti Carbonara', description: 'Traditional Roman pasta with guanciale and pecorino.', price: 22, batchPrice: 17, category: 'Pasta', sortOrder: 2 },
+    ],
+    skipDuplicates: true,
+  });
+
+  // ─── Menu Items (Shake Shack) ───────────────────────
+  await prisma.menuItem.createMany({
+    data: [
+      { restaurantId: shakeShack.id, name: 'ShackBurger', description: 'Single cheeseburger with lettuce, tomato, and ShackSauce.', price: 8, batchPrice: 6, category: 'Burgers', sortOrder: 1 },
+      { restaurantId: shakeShack.id, name: 'Crinkle Cut Fries', description: 'Crispy, crinkle cut fries.', price: 4, batchPrice: 3, category: 'Sides', sortOrder: 2 },
+    ],
+    skipDuplicates: true,
+  });
+
+  // ─── Menu Items (Poke Paradise) ───────────────────────
+  await prisma.menuItem.createMany({
+    data: [
+      { restaurantId: pokeParadise.id, name: 'Ahi Tuna Bowl', description: 'Fresh ahi tuna with classic shoyu sauce over rice.', price: 16, batchPrice: 12, category: 'Bowls', sortOrder: 1 },
+      { restaurantId: pokeParadise.id, name: 'Spicy Salmon Bowl', description: 'Salmon with spicy mayo, edamame, and crispy onions.', price: 15, batchPrice: 11, category: 'Bowls', sortOrder: 2 },
     ],
     skipDuplicates: true,
   });

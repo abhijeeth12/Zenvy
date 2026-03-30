@@ -188,7 +188,7 @@ export default function AppLayout() {
       </nav>
 
       {/* Main Content Render */}
-      <main style={{ padding: '3rem 4rem', maxWidth: '1200px', margin: '0 auto', width: '100%', minHeight: '60vh' }}>
+      <main style={{ padding: location.pathname === '/dashboard' ? '3rem 1.5rem' : '3rem 4rem', maxWidth: '1200px', margin: '0 auto', width: '100%', minHeight: '60vh' }}>
         <Outlet />
       </main>
 

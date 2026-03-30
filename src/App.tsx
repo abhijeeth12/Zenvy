@@ -24,6 +24,7 @@ import ServerErrorPage from './pages/ServerErrorPage';
 import AboutPage from './pages/AboutPage';
 import CareersPage from './pages/CareersPage';
 import BlogPage from './pages/BlogPage';
+import RestaurantMenuPage from './pages/RestaurantMenuPage';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import { AuthProvider } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext';
@@ -51,6 +52,7 @@ function App() {
               <Route path="/wallet" element={<ProtectedRoute><WalletPage /></ProtectedRoute>} />
               <Route path="/orders" element={<ProtectedRoute><OrdersPage /></ProtectedRoute>} />
               <Route path="/order/:id" element={<ProtectedRoute><OrderDetailsPage /></ProtectedRoute>} />
+              <Route path="/menu/:id" element={<ProtectedRoute><RestaurantMenuPage /></ProtectedRoute>} />
               
               {/* Public/Legal pages with AppLayout footer */}
               <Route path="/notifications" element={<NotificationsPage />} />
