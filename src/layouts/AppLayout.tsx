@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Outlet, useNavigate, useLocation } from 'react-router-dom';
+import { Outlet, useNavigate, useLocation, Link } from 'react-router-dom';
 import { User, Bell, Search, PlusCircle, LogOut, List, ShoppingBag, Wallet } from 'lucide-react';
 import CartDrawer from '../components/cart/CartDrawer';
 import { useCart } from '../contexts/CartContext';
@@ -208,26 +208,26 @@ export default function AppLayout() {
           <div>
             <h4 style={{ fontSize: '0.95rem', fontWeight: 700, marginBottom: '1.25rem', color: '#fff' }}>Product</h4>
             <ul style={{ listStyle: 'none', padding: 0 }}>
-              <li><a href="/dashboard" style={{ color: '#f0ede6', textDecoration: 'none', fontSize: '0.9rem', lineHeight: 1.8, opacity: 0.9 }}>Discovery</a></li>
-              <li><a href="/faq" style={{ color: '#f0ede6', textDecoration: 'none', fontSize: '0.9rem', lineHeight: 1.8, opacity: 0.9 }}>FAQ</a></li>
-              <li><a href="/support" style={{ color: '#f0ede6', textDecoration: 'none', fontSize: '0.9rem', lineHeight: 1.8, opacity: 0.9 }}>Support</a></li>
+              <li><Link to="/dashboard" style={{ color: '#f0ede6', textDecoration: 'none', fontSize: '0.9rem', lineHeight: 1.8, opacity: 0.9 }}>Discovery</Link></li>
+              <li><Link to="/faq" style={{ color: '#f0ede6', textDecoration: 'none', fontSize: '0.9rem', lineHeight: 1.8, opacity: 0.9 }}>FAQ</Link></li>
+              <li><Link to="/support" style={{ color: '#f0ede6', textDecoration: 'none', fontSize: '0.9rem', lineHeight: 1.8, opacity: 0.9 }}>Support</Link></li>
             </ul>
           </div>
 
           <div>
             <h4 style={{ fontSize: '0.95rem', fontWeight: 700, marginBottom: '1.25rem', color: '#fff' }}>Company</h4>
             <ul style={{ listStyle: 'none', padding: 0 }}>
-              <li><a href="/about" style={{ color: '#f0ede6', textDecoration: 'none', fontSize: '0.9rem', lineHeight: 1.8, opacity: 0.9 }}>About</a></li>
-              <li><a href="/careers" style={{ color: '#f0ede6', textDecoration: 'none', fontSize: '0.9rem', lineHeight: 1.8, opacity: 0.9 }}>Careers</a></li>
-              <li><a href="/blog" style={{ color: '#f0ede6', textDecoration: 'none', fontSize: '0.9rem', lineHeight: 1.8, opacity: 0.9 }}>Blog</a></li>
+              <li><Link to="/about" style={{ color: '#f0ede6', textDecoration: 'none', fontSize: '0.9rem', lineHeight: 1.8, opacity: 0.9 }}>About</Link></li>
+              <li><Link to="/careers" style={{ color: '#f0ede6', textDecoration: 'none', fontSize: '0.9rem', lineHeight: 1.8, opacity: 0.9 }}>Careers</Link></li>
+              <li><Link to="/blog" style={{ color: '#f0ede6', textDecoration: 'none', fontSize: '0.9rem', lineHeight: 1.8, opacity: 0.9 }}>Blog</Link></li>
             </ul>
           </div>
 
           <div>
             <h4 style={{ fontSize: '0.95rem', fontWeight: 700, marginBottom: '1.25rem', color: '#fff' }}>Legal</h4>
             <ul style={{ listStyle: 'none', padding: 0 }}>
-              <li><a href="/privacy" style={{ color: '#f0ede6', textDecoration: 'none', fontSize: '0.9rem', lineHeight: 1.8, opacity: 0.9 }}>Privacy</a></li>
-              <li><a href="/terms" style={{ color: '#f0ede6', textDecoration: 'none', fontSize: '0.9rem', lineHeight: 1.8, opacity: 0.9 }}>Terms</a></li>
+              <li><Link to="/privacy" style={{ color: '#f0ede6', textDecoration: 'none', fontSize: '0.9rem', lineHeight: 1.8, opacity: 0.9 }}>Privacy</Link></li>
+              <li><Link to="/terms" style={{ color: '#f0ede6', textDecoration: 'none', fontSize: '0.9rem', lineHeight: 1.8, opacity: 0.9 }}>Terms</Link></li>
             </ul>
           </div>
         </div>
