@@ -180,7 +180,7 @@ h1, h2, h3, h4, .hero-title, .section-heading {
   bottom: -0.75rem;
   width: 40px;
   height: 2px;
-  background: #b89562;
+  background: #c96442;
 }
 
 .about-desc {
@@ -206,7 +206,7 @@ h1, h2, h3, h4, .hero-title, .section-heading {
 }
 
 .icon-emerald {
-  color: #b89562;
+  color: #c96442;
 }
 
 .shadow-elegant {
@@ -228,117 +228,147 @@ h1, h2, h3, h4, .hero-title, .section-heading {
 
 /* -------- Parallax Divider & Dashboard -------- */
 .parallax-divider {
-  padding: 6rem 4rem;
+  padding: 10rem 4rem;
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  color: white;
-  min-height: 60vh;
+  position: relative;
+  min-height: 80vh;
   display: flex;
   align-items: center;
+  overflow: hidden;
+}
+
+.parallax-divider::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 0%, rgba(20, 16, 14, 0.4) 100%);
+  z-index: 1;
 }
 
 .dashboard-container {
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
+  position: relative;
+  z-index: 2;
 }
 
 .light-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.5rem;
+  letter-spacing: -0.02em;
   color: white;
+  margin-bottom: 0.5rem;
 }
 
 .light-heading::after {
-  background: #b89562;
+  background: #c96442;
+  width: 60px;
+  height: 3px;
+  bottom: -1rem;
 }
 
 .light-subheading {
-  font-size: 1.125rem;
-  opacity: 0.8;
-  margin-top: 1.5rem;
-  margin-bottom: 4rem;
+  font-size: 1.25rem;
+  opacity: 0.9;
+  margin-top: 2rem;
+  margin-bottom: 5rem;
+  font-weight: 300;
+  color: #f9f8f6;
 }
 
 .dashboard-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
+  gap: 2.5rem;
 }
 
 .dash-card {
-  background: rgba(251, 246, 236, 0.95);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(184, 149, 98, 0.2);
-  padding: 2.5rem;
-  border-radius: 8px;
+  background: rgba(251, 246, 236, 0.08); /* Darker glass for better contrast on images */
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 3rem;
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
-  color: #3a2b24;
+  color: #f9f8f6;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.dash-card:hover {
+  transform: translateY(-10px);
+  background: rgba(251, 246, 236, 0.12);
+  border-color: rgba(201, 100, 66, 0.4);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
 .dash-title {
   font-family: 'Inter', sans-serif;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  opacity: 0.7;
-  color: #6a5d55;
-  margin-bottom: 1rem;
-}
-
-.dash-metric {
-  font-size: 3.5rem;
-  font-weight: 300;
-  font-family: 'Playfair Display', serif;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+  color: #c96442; /* Terra Cotta Accent */
   margin-bottom: 1.5rem;
 }
 
-.text-emerald {
-  color: #b89562;
+.dash-metric {
+  font-size: 4.5rem;
+  font-weight: 400;
+  font-family: 'Playfair Display', serif;
+  margin-bottom: 2rem;
+  color: white;
+  line-height: 1;
 }
 
-/* Simple CSS Chart */
+.text-emerald {
+  color: white; /* Maintain white for readability on glass */
+}
+
+/* Enhanced CSS Chart */
 .dash-chart {
   display: flex;
   align-items: flex-end;
-  gap: 8px;
-  height: 60px;
+  gap: 10px;
+  height: 80px;
   margin-top: auto;
 }
 
 .bar {
   flex: 1;
-  background: rgba(58, 43, 36, 0.1);
-  border-radius: 2px 2px 0 0;
-  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .active-bar {
-  background: #b89562;
+  background: linear-gradient(to top, #c96442, #ff8c69);
+  box-shadow: 0 0 20px rgba(201, 100, 66, 0.4);
 }
 
 .dash-card:hover .bar {
-  background: rgba(58, 43, 36, 0.2);
-}
-
-.dash-card:hover .active-bar {
-  background: #a38455;
+  background: rgba(255, 255, 255, 0.2);
 }
 
 /* Progress Track */
 .progress-track {
-  height: 8px;
-  background: rgba(58, 43, 36, 0.1);
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   margin-top: auto;
+  overflow: hidden;
 }
 
 .progress-fill {
   height: 100%;
-  background: #b89562;
+  background: linear-gradient(to right, #c96442, #ff8c69);
   border-radius: 10px;
+  box-shadow: 0 0 15px rgba(201, 100, 66, 0.5);
 }
 
 /* Batch Pulse */
@@ -347,10 +377,10 @@ h1, h2, h3, h4, .hero-title, .section-heading {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 60px;
-  width: 60px;
+  height: 80px;
+  width: 80px;
   margin-top: auto;
-  color: #b89562;
+  color: #c96442;
 }
 
 .pulse-ring {
@@ -358,8 +388,8 @@ h1, h2, h3, h4, .hero-title, .section-heading {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: 2px solid #b89562;
-  animation: pulse 2s infinite;
+  border: 2px solid #c96442;
+  animation: pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   opacity: 0;
 }
 
@@ -427,13 +457,13 @@ h1, h2, h3, h4, .hero-title, .section-heading {
 
 .status-badge {
   background: rgba(255,255,255,0.9);
-  color: #3a2b24;
+  color: #c96442;
   padding: 0.4rem 0.8rem;
   border-radius: 20px;
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   backdrop-filter: blur(4px);
-  border: 1px solid rgba(184, 149, 98, 0.3);
+  border: 1px solid rgba(201, 100, 66, 0.3);
 }
 
 .gallery-info {
