@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import sushiImg from '../assets/sushi.png';
+import foodieImg from '../assets/steakhouse.png';
 import { apiClient } from '../api';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -88,7 +88,7 @@ export default function SignUpPage() {
       {/* Left side: Premium Culinary Image */}
       <div style={{ width: '45%', flexShrink: 0, position: 'relative', display: 'flex' }}>
         <img 
-          src={sushiImg} 
+          src={foodieImg} 
           alt="Premium Culinary Experience" 
           style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', transform: 'scaleX(-1)' }} 
         />

@@ -4,45 +4,46 @@ import { Clock, Users, ArrowRight, Zap, MapPin, Star, Truck, ChevronRight, Flame
 import { apiClient } from '../api';
 import './DashboardPage.css';
 
-// Local assets — static imports for Vite
-import bowlImg from '../assets/bowl.png';
-import sushiImg from '../assets/sushi.png';
-import steakImg from '../assets/steak.png';
-import heroBg from '../assets/hero_bg.png';
+// Local assets — updated with premium generated imagery
+import artisanSaladImg from '../assets/artisan_salad.png';
+import omakaseImg from '../assets/omakase.png';
+import steakhouseImg from '../assets/steakhouse.png';
+import pastaImg from '../assets/minimalist_pasta.png';
+import heroBg from '../assets/hero_moody.png';
 
 // ============================================
 // Image Mapping — maps cuisines/restaurants to available assets
 // ============================================
 
 const CUISINE_IMAGES: Record<string, string> = {
-  'Japanese': sushiImg,
-  'Thai': bowlImg,
-  'Italian': steakImg,
-  'American': steakImg,
-  'Hawaiian': bowlImg,
-  'Mexican': steakImg,
-  'Indian': bowlImg,
-  'Mediterranean': bowlImg,
-  'Healthy': bowlImg,
-  'Steakhouse': steakImg,
+  'Japanese': omakaseImg,
+  'Thai': artisanSaladImg,
+  'Italian': pastaImg,
+  'American': steakhouseImg,
+  'Hawaiian': artisanSaladImg,
+  'Mexican': steakhouseImg,
+  'Indian': artisanSaladImg,
+  'Mediterranean': artisanSaladImg,
+  'Healthy': artisanSaladImg,
+  'Steakhouse': steakhouseImg,
 };
 
 const RESTAURANT_IMAGES: Record<string, string> = {
-  'Matsuhisa Omakase': sushiImg,
-  'Cut by Wolfgang Puck': steakImg,
-  'Sweetgreen Artisan': bowlImg,
-  'Nobu Kitchen': sushiImg,
-  'Eataly Express': steakImg,
-  'Shake Shack Premium': steakImg,
-  'Pad Thai Palace': bowlImg,
-  'Poke Paradise': bowlImg,
+  'Matsuhisa Omakase': omakaseImg,
+  'Cut by Wolfgang Puck': steakhouseImg,
+  'Sweetgreen Artisan': artisanSaladImg,
+  'Nobu Kitchen': omakaseImg,
+  'Eataly Express': pastaImg,
+  'Shake Shack Premium': steakhouseImg,
+  'Pad Thai Palace': artisanSaladImg,
+  'Poke Paradise': artisanSaladImg,
 };
 
 function getImageForCuisine(cuisine: string): string {
   for (const [key, val] of Object.entries(CUISINE_IMAGES)) {
     if (cuisine.toLowerCase().includes(key.toLowerCase())) return val;
   }
-  return bowlImg;
+  return artisanSaladImg;
 }
 
 function getImageForRestaurant(name: string, cuisine: string): string {

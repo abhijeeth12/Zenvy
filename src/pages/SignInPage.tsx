@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import sushiImg from '../assets/sushi.png';
+import foodieImg from '../assets/omakase.png';
 import { apiClient } from '../api';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -81,7 +81,7 @@ export default function SignInPage() {
       {/* Left side: Premium Culinary Image */}
       <div style={{ width: '45%', flexShrink: 0, position: 'relative', display: 'flex' }}>
         <img 
-          src={sushiImg} 
+          src={foodieImg} 
           alt="Premium Culinary Experience" 
           style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} 
         />

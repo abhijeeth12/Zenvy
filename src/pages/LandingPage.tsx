@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Utensils, Users, TrendingDown, Clock } from 'lucide-react';
 import './LandingPage.css';
 
-// Using the copied assets locally
-import heroBg from '../assets/hero_bg.png';
-import imgBowl from '../assets/bowl.png';
-import imgSushi from '../assets/sushi.png';
-import imgSteak from '../assets/steak.png';
+// Using the newly generated premium assets
+import heroBg from '../assets/hero_moody.png';
+import imgBowl from '../assets/artisan_salad.png';
+import imgSushi from '../assets/omakase.png';
+import imgSteak from '../assets/steakhouse.png';
+import imgLifestyle from '../assets/lifestyle_dining.png';
+import imgPasta from '../assets/minimalist_pasta.png';
 
 function LandingPage() {
   const [scrolled, setScrolled] = useState(false);
@@ -94,7 +96,7 @@ function LandingPage() {
             </div>
           </div>
           <div className="about-image-wrapper scroll-reveal shadow-elegant">
-            <img src={imgSteak} alt="Premium Steak" className="about-image" />
+            <img src={imgLifestyle} alt="Collaborative Dining" className="about-image" />
           </div>
         </div>
       </section>
@@ -103,7 +105,7 @@ function LandingPage() {
       <section 
         id="overview" 
         className="parallax-divider"
-        style={{ backgroundImage: `linear-gradient(rgba(17,24,39,0.9), rgba(17,24,39,0.9)), url(${imgBowl})` }}
+        style={{ backgroundImage: `linear-gradient(rgba(17,24,39,0.9), rgba(17,24,39,0.9)), url(${imgPasta})` }}
       >
         <div className="dashboard-container scroll-reveal">
           <div className="dashboard-header">
@@ -156,7 +158,7 @@ function LandingPage() {
         <div className="restaurant-gallery">
           <div className="gallery-card scroll-reveal">
             <div className="gallery-img-wrapper">
-              <img src={imgBowl} alt="Sweetgreen" />
+              <img src={imgBowl} alt="Artisan Salad" />
               <div className="overlay-batch-status">
                 <span className="status-badge">4/8 Joined</span>
               </div>
@@ -170,7 +172,7 @@ function LandingPage() {
 
           <div className="gallery-card scroll-reveal">
             <div className="gallery-img-wrapper">
-              <img src={imgSushi} alt="Sushi Roku" />
+              <img src={imgSushi} alt="Matsuhisa Omakase" />
               <div className="overlay-batch-status">
                 <span className="status-badge">7/10 Joined</span>
               </div>
