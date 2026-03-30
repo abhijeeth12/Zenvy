@@ -1,11 +1,12 @@
 .layout {
-  min-height: 100vh;
   min-height: 100dvh;
   background-color: var(--color-background);
   font-family: 'Inter', sans-serif;
   color: #333;
   width: 100%;
+  max-width: 100%;
   overflow-x: hidden;
+  position: relative;
 }
 
 h1,
@@ -21,7 +22,10 @@ h4,
 .premium-nav {
   position: absolute;
   top: 0;
+  left: 0;
+  right: 0;
   width: 100%;
+  max-width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -168,7 +172,8 @@ h4,
 .section-about {
   padding: 8rem 4rem;
   background: #fdfbf8;
-  /* Warm paper tint */
+  overflow: hidden;
+  max-width: 100%;
 }
 
 .about-container {
@@ -251,6 +256,7 @@ h4,
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  overflow: hidden;
 }
 
 /* Subtle background graphic or texture */
@@ -364,6 +370,8 @@ h4,
 .section-restaurants {
   padding: 10rem 4rem;
   background: white;
+  overflow: hidden;
+  max-width: 100%;
 }
 
 .text-center {
