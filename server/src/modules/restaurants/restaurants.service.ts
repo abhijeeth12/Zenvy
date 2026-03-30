@@ -122,12 +122,20 @@ export class RestaurantsService {
                 sortOrder: 2,
               },
               {
-                name: 'Crispy Appetizer',
-                price: 12,
-                batchPrice: 10,
-                imageUrl: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=500&q=80',
-                category: 'Starters',
+                name: 'Spaghetti Carbonara',
+                price: 22,
+                batchPrice: 17,
+                imageUrl: 'https://images.unsplash.com/photo-1546548970-71785318a17b?w=500&q=80',
+                category: 'Pasta',
                 sortOrder: 3,
+              },
+              {
+                name: 'Margherita Pizza',
+                price: 18,
+                batchPrice: 14,
+                imageUrl: 'https://images.unsplash.com/photo-1574071318508-1cdbad80ad38?w=500&q=80',
+                category: 'Pizza',
+                sortOrder: 4,
               },
               {
                 name: 'Chef Tasting Platter',
@@ -135,7 +143,7 @@ export class RestaurantsService {
                 batchPrice: 28,
                 imageUrl: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500&q=80',
                 category: 'Mains',
-                sortOrder: 4,
+                sortOrder: 5,
               }
             ]
           }
@@ -170,6 +178,24 @@ export class RestaurantsService {
             imageUrl: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&q=80',
             category: 'Mains',
             sortOrder: 2,
+          },
+          {
+            restaurantId: restaurant.id,
+            name: 'Spaghetti Carbonara',
+            price: 22,
+            batchPrice: 17,
+            imageUrl: 'https://images.unsplash.com/photo-1546548970-71785318a17b?w=500&q=80',
+            category: 'Pasta',
+            sortOrder: 3,
+          },
+          {
+            restaurantId: restaurant.id,
+            name: 'Margherita Pizza',
+            price: 18,
+            batchPrice: 14,
+            imageUrl: 'https://images.unsplash.com/photo-1574071318508-1cdbad80ad38?w=500&q=80',
+            category: 'Pizza',
+            sortOrder: 4,
           }
         ]
       });
