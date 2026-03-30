@@ -230,11 +230,13 @@ h1, h2, h3, h4, .hero-title, .section-heading {
 /* -------- Dashboard / Network Overview Section -------- */
 .section-overview {
   padding: 12rem 4rem;
-  background: #fdfbf8;
   border-top: 1px solid rgba(44, 36, 32, 0.05);
   border-bottom: 1px solid rgba(44, 36, 32, 0.05);
-  overflow: hidden;
   position: relative;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 /* Subtle background graphic or texture */

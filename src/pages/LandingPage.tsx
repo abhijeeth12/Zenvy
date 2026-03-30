@@ -9,7 +9,7 @@ import imgBowl from '../assets/artisan_salad.png';
 import imgSushi from '../assets/omakase.png';
 import imgSteak from '../assets/steakhouse.png';
 import imgLifestyle from '../assets/lifestyle_dining.png';
-
+import imgPasta from '../assets/minimalist_pasta.png';
 
 function LandingPage() {
   const [scrolled, setScrolled] = useState(false);
@@ -102,7 +102,11 @@ function LandingPage() {
       </section>
 
       {/* Reimagined Overview Section — Blended with Brand Aesthetic */}
-      <section id="overview" className="section-overview">
+      <section 
+        id="overview" 
+        className="section-overview"
+        style={{ backgroundImage: `linear-gradient(rgba(253, 251, 248, 0.96), rgba(253, 251, 248, 0.96)), url(${imgPasta})` }}
+      >
         <div className="overview-header scroll-reveal">
           <span className="overview-tag">Network Impact</span>
           <h2 className="overview-title">Quantifying the Art of <br/>Collective Dining</h2>
