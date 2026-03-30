@@ -21,6 +21,11 @@ export default function AppLayout() {
     }
   }, [location.pathname, cart, clearCart, setActiveBatchId]);
 
+  // Scroll to absolute top of page on any route change
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -183,7 +188,7 @@ export default function AppLayout() {
       </nav>
 
       {/* Main Content Render */}
-      <main style={{ padding: '3rem 4rem' }}>
+      <main style={{ padding: '3rem 4rem', maxWidth: '1200px', margin: '0 auto', width: '100%', minHeight: '60vh' }}>
         <Outlet />
       </main>
 
