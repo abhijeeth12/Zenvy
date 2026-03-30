@@ -19,6 +19,15 @@ export const createRestaurantSchema = z.object({
 
 export const updateRestaurantSchema = createRestaurantSchema.partial();
 
+export const ensureRestaurantSchema = z.object({
+  id: z.string().optional(),
+  name: z.string().min(2),
+  cuisine: z.string().min(2).optional(),
+  imageUrl: z.string().url().optional(),
+});
+
+export type EnsureRestaurantInput = z.infer<typeof ensureRestaurantSchema>;
+
 export const createMenuItemSchema = z.object({
   name: z.string().min(2).max(100),
   description: z.string().max(500).optional(),

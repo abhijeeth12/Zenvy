@@ -25,7 +25,7 @@ export default function BlogPage() {
       title: 'The Ritual of Shared Dining', 
       date: 'February 18, 2026',
       category: 'Culture',
-      image: 'https://images.unsplash.com/photo-1414235077428-33898ed1e81b?q=80&w=1000&auto=format&fit=crop',
+      image: 'https://images.unsplash.com/photo-1544148103-0773bf10d330?q=80&w=1000&auto=format&fit=crop',
       excerpt: 'Exploring the psychological benefits of eating together. How our digital platform is fostering real-world community and returning food to its social roots.'
     }
   ];

@@ -77,6 +77,117 @@ export class RestaurantsService {
     return restaurant;
   }
 
+  async ensureRestaurantMenu(input: { id?: string; name: string; cuisine?: string; imageUrl?: string }) {
+    let restaurant = await prisma.restaurant.findFirst({
+      where: { name: input.name },
+      include: {
+        menuItems: {
+          where: { isAvailable: true },
+          orderBy: [{ category: 'asc' }, { sortOrder: 'asc' }],
+        },
+      },
+    });
+
+    if (!restaurant) {
+      const slug = input.name
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
+        
+      restaurant = await prisma.restaurant.create({
+        data: {
+          id: input.id?.startsWith('r') ? undefined : input.id, // don't use 'r1', 'r2' as actual cuid if possible, but prisma handles string ids. Let's just let Prisma generate if it's 'r1'
+          name: input.name,
+          slug,
+          cuisine: input.cuisine || 'Various',
+          address: '123 Test Ave, Beverly Hills, CA 90210',
+          imageUrl: input.imageUrl,
+          rating: 4.5,
+          menuItems: {
+            create: [
+              {
+                name: 'Signature ' + (input.cuisine?.split(' ')[0] || 'Dish'),
+                price: 24,
+                batchPrice: 18,
+                imageUrl: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&q=80',
+                category: 'Mains',
+                sortOrder: 1,
+              },
+              {
+                name: 'House Special Bowl',
+                price: 18,
+                batchPrice: 14,
+                imageUrl: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&q=80',
+                category: 'Mains',
+                sortOrder: 2,
+              },
+              {
+                name: 'Crispy Appetizer',
+                price: 12,
+                batchPrice: 10,
+                imageUrl: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=500&q=80',
+                category: 'Starters',
+                sortOrder: 3,
+              },
+              {
+                name: 'Chef Tasting Platter',
+                price: 35,
+                batchPrice: 28,
+                imageUrl: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500&q=80',
+                category: 'Mains',
+                sortOrder: 4,
+              }
+            ]
+          }
+        },
+        include: {
+          menuItems: {
+            where: { isAvailable: true },
+            orderBy: [{ category: 'asc' }, { sortOrder: 'asc' }],
+          },
+        },
+      });
+    }
+
+    // Double check if existing restaurant had no menu items
+    if (restaurant.menuItems.length === 0) {
+      await prisma.menuItem.createMany({
+        data: [
+          {
+            restaurantId: restaurant.id,
+            name: 'Signature ' + (input.cuisine?.split(' ')[0] || 'Dish'),
+            price: 24,
+            batchPrice: 18,
+            imageUrl: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&q=80',
+            category: 'Mains',
+            sortOrder: 1,
+          },
+          {
+            restaurantId: restaurant.id,
+            name: 'House Special Bowl',
+            price: 18,
+            batchPrice: 14,
+            imageUrl: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&q=80',
+            category: 'Mains',
+            sortOrder: 2,
+          }
+        ]
+      });
+
+      restaurant = await prisma.restaurant.findUnique({
+        where: { id: restaurant.id },
+        include: {
+          menuItems: {
+            where: { isAvailable: true },
+            orderBy: [{ category: 'asc' }, { sortOrder: 'asc' }],
+          },
+        },
+      }) as any;
+    }
+
+    return restaurant;
+  }
+
   async create(input: CreateRestaurantInput) {
     const slug = input.name
       .toLowerCase()

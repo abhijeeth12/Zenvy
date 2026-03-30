@@ -6,6 +6,7 @@ import {
   updateRestaurantSchema,
   createMenuItemSchema,
   updateMenuItemSchema,
+  ensureRestaurantSchema,
 } from './restaurants.schema.js';
 import { sendSuccess, sendError } from '../../utils/response.js';
 
@@ -18,6 +19,19 @@ export class RestaurantsController {
 
     const result = await restaurantsService.list(parsed.data);
     return sendSuccess(reply, result.data, 200, result.meta);
+  }
+
+  async ensureRestaurant(request: FastifyRequest, reply: FastifyReply) {
+    const parsed = ensureRestaurantSchema.safeParse(request.body);
+    if (!parsed.success) {
+      return sendError(reply, 'VALIDATION_ERROR', 'Invalid input', 400, parsed.error.flatten().fieldErrors);
+    }
+    try {
+      const result = await restaurantsService.ensureRestaurantMenu(parsed.data);
+      return sendSuccess(reply, result, 200);
+    } catch (err: any) {
+      return sendError(reply, err.code, err.message, err.statusCode || 500);
+    }
   }
 
   async getById(request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) {

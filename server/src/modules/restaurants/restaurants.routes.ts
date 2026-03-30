@@ -9,6 +9,7 @@ export async function restaurantRoutes(app: FastifyInstance) {
 
   // Public (authenticated) routes
   app.get('/restaurants', restaurantsController.list.bind(restaurantsController));
+  app.post('/restaurants/ensure', restaurantsController.ensureRestaurant.bind(restaurantsController));
   app.get('/restaurants/:id', restaurantsController.getById.bind(restaurantsController));
 
   // Admin-only routes

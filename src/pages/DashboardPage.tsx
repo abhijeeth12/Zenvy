@@ -1,14 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Clock, Users, ArrowRight, Zap, MapPin, Star, Truck, ChevronRight, Flame } from 'lucide-react';
+import { Clock, Users, ArrowRight, Zap, MapPin, Star, Truck, ChevronRight, Flame, X } from 'lucide-react';
 import { apiClient } from '../api';
 import './DashboardPage.css';
 
 // Local assets — updated with premium generated imagery
-import artisanSaladImg from '../assets/artisan_salad.png';
-import omakaseImg from '../assets/omakase.png';
-import steakhouseImg from '../assets/steakhouse.png';
-import pastaImg from '../assets/minimalist_pasta.png';
 import heroBg from '../assets/hero_moody.png';
 
 // ============================================
@@ -16,34 +12,34 @@ import heroBg from '../assets/hero_moody.png';
 // ============================================
 
 const CUISINE_IMAGES: Record<string, string> = {
-  'Japanese': omakaseImg,
-  'Thai': artisanSaladImg,
-  'Italian': pastaImg,
-  'American': steakhouseImg,
-  'Hawaiian': artisanSaladImg,
-  'Mexican': steakhouseImg,
-  'Indian': artisanSaladImg,
-  'Mediterranean': artisanSaladImg,
-  'Healthy': artisanSaladImg,
-  'Steakhouse': steakhouseImg,
+  'Japanese': 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=1000&auto=format&fit=crop',
+  'Thai': 'https://images.unsplash.com/photo-1559314809-0d155014e29e?q=80&w=1000&auto=format&fit=crop',
+  'Italian': 'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?q=80&w=1000&auto=format&fit=crop',
+  'American': 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1000&auto=format&fit=crop',
+  'Hawaiian': 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1000&auto=format&fit=crop',
+  'Mexican': 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=1000&auto=format&fit=crop',
+  'Indian': 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=1000&auto=format&fit=crop',
+  'Mediterranean': 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?q=80&w=1000&auto=format&fit=crop',
+  'Healthy': 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1000&auto=format&fit=crop',
+  'Steakhouse': 'https://images.unsplash.com/photo-1544025162-835ab03fa85f?q=80&w=1000&auto=format&fit=crop',
 };
 
 const RESTAURANT_IMAGES: Record<string, string> = {
-  'Matsuhisa Omakase': omakaseImg,
-  'Cut by Wolfgang Puck': steakhouseImg,
-  'Sweetgreen Artisan': artisanSaladImg,
-  'Nobu Kitchen': omakaseImg,
-  'Eataly Express': pastaImg,
-  'Shake Shack Premium': steakhouseImg,
-  'Pad Thai Palace': artisanSaladImg,
-  'Poke Paradise': artisanSaladImg,
+  'Matsuhisa Omakase': 'https://images.unsplash.com/photo-1553621042-f6e147245754?q=80&w=1000&auto=format&fit=crop',
+  'Cut by Wolfgang Puck': 'https://images.unsplash.com/photo-1544025162-835ab03fa85f?q=80&w=1000&auto=format&fit=crop',
+  'Sweetgreen Artisan': 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1000&auto=format&fit=crop',
+  'Nobu Kitchen': 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=1000&auto=format&fit=crop',
+  'Eataly Express': 'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?q=80&w=1000&auto=format&fit=crop',
+  'Shake Shack Premium': 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1000&auto=format&fit=crop',
+  'Pad Thai Palace': 'https://images.unsplash.com/photo-1559314809-0d155014e29e?q=80&w=1000&auto=format&fit=crop',
+  'Poke Paradise': 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1000&auto=format&fit=crop',
 };
 
 function getImageForCuisine(cuisine: string): string {
   for (const [key, val] of Object.entries(CUISINE_IMAGES)) {
     if (cuisine.toLowerCase().includes(key.toLowerCase())) return val;
   }
-  return artisanSaladImg;
+  return 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1000&auto=format&fit=crop';
 }
 
 function getImageForRestaurant(name: string, cuisine: string): string {
@@ -172,6 +168,8 @@ export default function DashboardPage() {
   const [restaurants, setRestaurants] = useState<any[]>([]);
   const [loadingBatches, setLoadingBatches] = useState(true);
   const [loadingRestaurants, setLoadingRestaurants] = useState(true);
+  const [selectedMenuRestaurant, setSelectedMenuRestaurant] = useState<any>(null);
+  const [loadingMenu, setLoadingMenu] = useState(false);
 
   // Fetch batches — backend first, mock fallback
   useEffect(() => {
@@ -374,9 +372,26 @@ export default function DashboardPage() {
 
                   <button
                     className="dash-restaurant-menu-btn"
-                    onClick={() => navigate(`/batch/new?restaurant=${rest.id}`)}
+                    disabled={loadingMenu && selectedMenuRestaurant?.id === rest.id}
+                    onClick={async () => {
+                      setLoadingMenu(true);
+                      setSelectedMenuRestaurant({ ...rest }); // optimistic show
+                      try {
+                        const res = await apiClient.post('/restaurants/ensure', {
+                          id: rest.id,
+                          name: rest.name,
+                          cuisine: rest.cuisine,
+                          imageUrl: rest.imageUrl || imgSrc
+                        });
+                        setSelectedMenuRestaurant(res.data || res);
+                      } catch (err) {
+                        console.error('Failed to fetch menu:', err);
+                      } finally {
+                        setLoadingMenu(false);
+                      }
+                    }}
                   >
-                    View Menu
+                    {loadingMenu && selectedMenuRestaurant?.id === rest.id ? 'Loading...' : 'View Menu'}
                   </button>
                 </div>
               </div>
@@ -384,6 +399,79 @@ export default function DashboardPage() {
           })}
         </div>
       )}
+
+      {/* ========== Sliding Menu Drawer ========== */}
+      <div 
+        className={`dash-menu-drawer-backdrop ${selectedMenuRestaurant ? 'open' : ''}`} 
+        onClick={() => setSelectedMenuRestaurant(null)} 
+        style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1000,
+          opacity: selectedMenuRestaurant ? 1 : 0,
+          pointerEvents: selectedMenuRestaurant ? 'auto' : 'none',
+          transition: 'opacity 0.3s ease'
+        }}
+      >
+        <div 
+          className={`dash-menu-drawer ${selectedMenuRestaurant ? 'open' : ''}`} 
+          onClick={e => e.stopPropagation()} 
+          style={{
+            position: 'absolute', right: 0, top: 0, bottom: 0, width: '100%', maxWidth: '500px',
+            backgroundColor: '#fcfaf8', boxShadow: '-10px 0 30px rgba(0,0,0,0.1)',
+            transform: selectedMenuRestaurant ? 'translateX(0)' : 'translateX(100%)',
+            transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+            display: 'flex', flexDirection: 'column', overflow: 'hidden'
+          }}
+        >
+          {selectedMenuRestaurant && (
+            <>
+              <div style={{ height: '240px', position: 'relative', flexShrink: 0 }}>
+                <img 
+                  src={selectedMenuRestaurant.imageUrl || getImageForRestaurant(selectedMenuRestaurant.name, selectedMenuRestaurant.cuisine)} 
+                  alt={selectedMenuRestaurant.name} 
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                />
+                <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, transparent 40%, rgba(0,0,0,0.8) 100%)' }} />
+                <button 
+                  onClick={() => setSelectedMenuRestaurant(null)} 
+                  style={{ position: 'absolute', top: '1.5rem', right: '1.5rem', background: 'rgba(0,0,0,0.5)', border: 'none', color: '#fff', width: '36px', height: '36px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', backdropFilter: 'blur(4px)' }}
+                >
+                  <X size={20} />
+                </button>
+                <div style={{ position: 'absolute', bottom: '1.5rem', left: '2rem', color: '#fff' }}>
+                  <h2 style={{ fontSize: '2.2rem', margin: '0 0 0.5rem 0', fontFamily: 'Playfair Display, serif', fontWeight: 600 }}>{selectedMenuRestaurant.name}</h2>
+                  <p style={{ margin: 0, fontSize: '0.95rem', opacity: 0.9 }}>{selectedMenuRestaurant.cuisine} • Read-Only Menu</p>
+                </div>
+              </div>
+              
+              <div style={{ flex: 1, overflowY: 'auto', padding: '2rem' }}>
+                {loadingMenu ? (
+                  <div style={{ display: 'flex', justifyContent: 'center', padding: '3rem', color: '#8a7d76' }}>Loading specialized menu...</div>
+                ) : !selectedMenuRestaurant.menuItems || selectedMenuRestaurant.menuItems.length === 0 ? (
+                  <div style={{ display: 'flex', justifyContent: 'center', padding: '3rem', color: '#8a7d76' }}>No menu items available.</div>
+                ) : (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                    {selectedMenuRestaurant.menuItems.map((item: any) => (
+                      <div key={item.id || item.name} style={{ display: 'flex', gap: '1rem', paddingBottom: '1.5rem', borderBottom: '1px solid #eee' }}>
+                        <div style={{ flex: 1 }}>
+                          <h4 style={{ margin: '0 0 0.5rem 0', fontSize: '1.1rem', color: '#2c2420', fontWeight: 600 }}>{item.name}</h4>
+                          <p style={{ margin: '0 0 1rem 0', fontSize: '0.85rem', color: '#6a5d55', lineHeight: '1.5' }}>{item.description || 'Premium seasonal ingredients crafted to perfection for a delightful culinary experience.'}</p>
+                          <div style={{ fontSize: '1.05rem', fontWeight: '600', color: '#c96442' }}>₹{item.price} <span style={{ fontSize: '0.8rem', color: '#8a7d76', fontWeight: 'normal', textDecoration: 'line-through', marginLeft: '0.5rem' }}>₹{Math.round(item.price * 1.3)}</span></div>
+                        </div>
+                        {item.imageUrl && (
+                          <div style={{ width: '110px', height: '110px', borderRadius: '12px', overflow: 'hidden', flexShrink: 0, boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
+                            <img src={item.imageUrl} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
