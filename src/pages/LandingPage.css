@@ -32,7 +32,6 @@ h4,
   backdrop-filter: blur(0px);
   -webkit-backdrop-filter: blur(0px);
   background-color: rgba(251, 246, 236, 0);
-  /* Consistent base for smooth transition */
   color: white;
   will-change: background-color, padding, box-shadow, backdrop-filter;
 }
@@ -90,15 +89,11 @@ h4,
   color: #3a2b24;
 }
 
-/* -------- Hero Section with Parallax -------- */
+/* -------- Hero Section -------- */
 .parallax-hero {
   height: 100vh;
   height: 100dvh;
   width: 100%;
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -110,10 +105,38 @@ h4,
   overflow: hidden;
 }
 
+/* Scalable background image for GSAP scrub */
+.hero-bg-image {
+  position: absolute;
+  inset: -10%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  will-change: transform;
+  backface-visibility: hidden;
+  z-index: 1;
+}
+
+/* Gradient overlay */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7));
+  z-index: 2;
+  pointer-events: none;
+}
+
 .hero-content {
   max-width: 800px;
   padding: 0 2rem;
   z-index: 10;
+  position: relative;
+}
+
+/* Word spans for staggered text animation */
+.hero-word {
+  display: inline-block;
+  will-change: transform, opacity;
 }
 
 .hero-script {
@@ -138,7 +161,7 @@ h4,
   font-family: 'Inter', sans-serif;
   font-size: 1.25rem;
   font-weight: 300;
-  opacity: 0.9;
+  opacity: 0;
   letter-spacing: 0.05em;
   margin-bottom: 3rem;
   line-height: 1.6;
@@ -159,6 +182,7 @@ h4,
   gap: 0.75rem;
   transition: all 0.3s ease;
   position: relative;
+  opacity: 0;
 }
 
 .btn-hero:hover {
@@ -244,7 +268,6 @@ h4,
   transform: scale(1.05);
 }
 
-/* -------- Parallax Divider & Dashboard -------- */
 /* -------- Dashboard / Network Overview Section -------- */
 .section-overview {
   padding: 12rem 4rem;
@@ -258,7 +281,6 @@ h4,
   overflow: hidden;
 }
 
-/* Subtle background graphic or texture */
 .section-overview::before {
   content: '';
   position: absolute;
@@ -346,7 +368,6 @@ h4,
   max-width: 250px;
 }
 
-/* Visualization elements */
 .viz-dots {
   display: flex;
   gap: 4px;
@@ -397,6 +418,23 @@ h4,
   margin: 0 auto;
 }
 
+/* Desktop: horizontal flex row for GSAP horizontal scroll */
+@media (min-width: 768px) {
+  .restaurant-gallery {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 2.5rem;
+    width: max-content;
+    max-width: none;
+    will-change: transform;
+  }
+
+  .gallery-card {
+    min-width: 420px;
+    flex-shrink: 0;
+  }
+}
+
 .gallery-card {
   cursor: pointer;
 }
@@ -433,7 +471,6 @@ h4,
 .gallery-info {
   padding: 1.5rem;
   background: #fbf6ec;
-  /* Cream inner base */
   color: #3a2b24;
 }
 
@@ -489,30 +526,56 @@ h4,
   letter-spacing: 0.05em;
 }
 
-/* Fade in animations */
+/* -------- GSAP takes over all animations -------- */
+/* Disable competing CSS animations — GSAP handles reveals */
 .fade-in {
-  animation: fadeIn 1.2s ease-out forwards;
+  animation: none !important;
 }
 
 .scroll-reveal {
   opacity: 0;
-  transform: translateY(30px);
-  animation: scrollReveal 1s ease-out forwards;
-  animation-play-state: paused;
+  transform: none;
+  animation: none !important;
 }
 
-.scroll-reveal.in-view {
-  animation-play-state: running;
+/* GPU acceleration for animated elements */
+.hero-bg-image,
+.hero-word,
+.gallery-card,
+.insight-item,
+.about-image-wrapper,
+.feature-item {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
+/* Prevent layout thrashing during scroll animations */
+.parallax-hero,
+.section-about,
+.section-overview,
+.section-restaurants {
+  contain: layout style paint;
+}
+
+/* -------- Accessibility: reduced motion -------- */
+@media (prefers-reduced-motion: reduce) {
+  .hero-word,
+  .hero-subtitle,
+  .btn-hero,
+  .scroll-reveal,
+  .hero-bg-image {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Keep keyframes (unused but intact) */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes scrollReveal {

@@ -1,7 +1,10 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useLayoutEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Utensils, Users, TrendingDown } from 'lucide-react';
 import './LandingPage.css';
+
+import { initScroll, destroyScroll } from '../animations/scrollSetup';
+import { initLandingAnimations } from '../animations/heroAnimations';
 
 // Using the newly generated premium assets
 import heroBg from '../assets/hero_moody.png';
@@ -11,37 +14,39 @@ import imgSteak from '../assets/steakhouse.png';
 import imgLifestyle from '../assets/lifestyle_dining.png';
 import imgPasta from '../assets/minimalist_pasta.png';
 
+/* ── Split text into animated word spans ── */
+const renderWords = (text: string, cls: string) =>
+  text.split(' ').map((word, i, arr) => (
+    <span key={i} className={`hero-word ${cls}`}>
+      {word}{i < arr.length - 1 ? '\u00A0' : ''}
+    </span>
+  ));
+
 function LandingPage() {
   const [scrolled, setScrolled] = useState(false);
-  const observerRef = useRef<IntersectionObserver | null>(null);
   const navigate = useNavigate();
+  const rootRef = useRef<HTMLDivElement>(null);
 
+  /* ── Smooth scroll init + nav background toggle ── */
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
+    initScroll();
+    const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
-
-    // Trigger scroll-reveal animations
-    observerRef.current = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in-view');
-        }
-      });
-    }, { threshold: 0.15 });
-
-    const hiddenElements = document.querySelectorAll('.scroll-reveal');
-    hiddenElements.forEach((el) => observerRef.current?.observe(el));
-
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      if (observerRef.current) observerRef.current.disconnect();
+      destroyScroll();
     };
   }, []);
 
+  /* ── GSAP animations scoped to root ref ── */
+  useLayoutEffect(() => {
+    if (!rootRef.current) return;
+    const ctx = initLandingAnimations(rootRef.current);
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <div className="layout">
+    <div className="layout" ref={rootRef}>
       {/* Absolute/Fixed Transparent Nav */}
       <nav className={`premium-nav ${scrolled ? 'nav-scrolled' : ''}`}>
         <div className="nav-brand">Zenvy.</div>
@@ -57,14 +62,12 @@ function LandingPage() {
       </nav>
 
       {/* Parallax Hero Section */}
-      <section 
-        id="home" 
-        className="parallax-hero" 
-        style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url(${heroBg})` }}
-      >
+      <section id="home" className="parallax-hero">
+        <div className="hero-bg-image" style={{ backgroundImage: `url(${heroBg})` }} />
+        <div className="hero-overlay" />
         <div className="hero-content fade-in">
-          <h1 className="hero-script">gather, order, savour</h1>
-          <h2 className="hero-title">The Fine Art of Collective Dining</h2>
+          <h1 className="hero-script">{renderWords('gather, order, savour', 'hero-word-script')}</h1>
+          <h2 className="hero-title">{renderWords('The Fine Art of Collective Dining', 'hero-word-title')}</h2>
           <p className="hero-subtitle">Experience premium culinary curation, delivered together. <br/>Save on fees, never on quality.</p>
           <button className="btn-hero border-reveal" onClick={() => navigate('/login')}>
             GET STARTED <ArrowRight size={18} />
@@ -115,7 +118,7 @@ function LandingPage() {
         <div className="overview-grid">
           <div className="insight-item scroll-reveal" style={{ transitionDelay: '0.1s' }}>
             <div className="insight-label">Collective Savings</div>
-            <div className="insight-value">$2.4M+</div>
+            <div className="insight-value" data-target="$2.4M+">$2.4M+</div>
             <p className="insight-sub">Total logistical dividends returned to our global community of food connoisseurs.</p>
             <div className="viz-dots">
               {[...Array(5)].map((_, i) => (
@@ -126,7 +129,7 @@ function LandingPage() {
           
           <div className="insight-item scroll-reveal" style={{ transitionDelay: '0.2s' }}>
             <div className="insight-label">Active Formations</div>
-            <div className="insight-value">1,402</div>
+            <div className="insight-value" data-target="1,402">1,402</div>
             <p className="insight-sub">Batches currently synchronized across premium urban kitchens worldwide.</p>
             <div className="viz-dots">
               {[...Array(5)].map((_, i) => (
@@ -137,7 +140,7 @@ function LandingPage() {
 
           <div className="insight-item scroll-reveal" style={{ transitionDelay: '0.3s' }}>
             <div className="insight-label">Wait Efficiency</div>
-            <div className="insight-value">24%</div>
+            <div className="insight-value" data-target="24%">24%</div>
             <p className="insight-sub">Average reduction in turnaround time through intelligent collective routing.</p>
             <div className="viz-dots">
               {[...Array(5)].map((_, i) => (
