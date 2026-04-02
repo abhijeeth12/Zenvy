@@ -17,7 +17,7 @@ export async function paymentRoutes(fastify: FastifyInstance) {
 
     if (isValid) {
       const order = await prisma.order.findFirst({
-        where: { paymentReference: razorpay_order_id }
+        where: { paymentReference: razorpay_order_id } as any
       });
       
       if (order && order.paymentStatus !== 'PAID') {
@@ -49,7 +49,7 @@ export async function paymentRoutes(fastify: FastifyInstance) {
         const razorpayOrderId = entity.order_id;
         
         if (razorpayOrderId) {
-          const order = await prisma.order.findFirst({ where: { paymentReference: razorpayOrderId } });
+          const order = await prisma.order.findFirst({ where: { paymentReference: razorpayOrderId } as any });
           if (order && order.paymentStatus !== 'PAID') {
             await prisma.order.update({
               where: { id: order.id },
@@ -63,7 +63,7 @@ export async function paymentRoutes(fastify: FastifyInstance) {
         const razorpayOrderId = entity.order_id;
         
         if (razorpayOrderId) {
-          const order = await prisma.order.findFirst({ where: { paymentReference: razorpayOrderId } });
+          const order = await prisma.order.findFirst({ where: { paymentReference: razorpayOrderId } as any });
           if (order) {
             await prisma.order.update({
               where: { id: order.id },
