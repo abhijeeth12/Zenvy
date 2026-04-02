@@ -3,13 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Utensils, Users, TrendingDown } from 'lucide-react';
 import './LandingPage.css';
 
-// All images sourced from Unsplash (no local assets)
-const IMG_HERO    = 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2000&auto=format&fit=crop';
-const IMG_BOWL    = 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1000&auto=format&fit=crop';
-const IMG_SUSHI   = 'https://images.unsplash.com/photo-1553621042-f6e147245754?q=80&w=1000&auto=format&fit=crop';
-const IMG_STEAK   = 'https://images.unsplash.com/photo-1558030006-450675393462?q=80&w=1000&auto=format&fit=crop';
-const IMG_LIFESTYLE = 'https://images.unsplash.com/photo-1600891964599-f61ba0e24092?q=80&w=1000&auto=format&fit=crop';
-const IMG_PASTA   = 'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?q=80&w=1000&auto=format&fit=crop';
+// Using the newly generated premium assets
+import heroBg from '../assets/hero_moody.png';
+import imgBowl from '../assets/artisan_salad.png';
+import imgSushi from '../assets/omakase.png';
+import imgSteak from '../assets/steakhouse.png';
+import imgLifestyle from '../assets/lifestyle_dining.png';
+import imgPasta from '../assets/minimalist_pasta.png';
 
 function LandingPage() {
   const [scrolled, setScrolled] = useState(false);
@@ -60,7 +60,7 @@ function LandingPage() {
       <section 
         id="home" 
         className="parallax-hero" 
-        style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url(${IMG_HERO})` }}
+        style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url(${heroBg})` }}
       >
         <div className="hero-content fade-in">
           <h1 className="hero-script">gather, order, savour</h1>
@@ -96,7 +96,7 @@ function LandingPage() {
             </div>
           </div>
           <div className="about-image-wrapper scroll-reveal shadow-elegant">
-            <img src={IMG_LIFESTYLE} alt="Collaborative Dining" className="about-image" />
+            <img src={imgLifestyle} alt="Collaborative Dining" className="about-image" />
           </div>
         </div>
       </section>
@@ -105,7 +105,7 @@ function LandingPage() {
       <section 
         id="overview" 
         className="section-overview"
-        style={{ backgroundImage: `linear-gradient(rgba(253, 251, 248, 0.96), rgba(253, 251, 248, 0.96)), url(${IMG_PASTA})` }}
+        style={{ backgroundImage: `linear-gradient(rgba(253, 251, 248, 0.96), rgba(253, 251, 248, 0.96)), url(${imgPasta})` }}
       >
         <div className="overview-header scroll-reveal">
           <span className="overview-tag">Network Impact</span>
@@ -158,7 +158,7 @@ function LandingPage() {
         <div className="restaurant-gallery">
           <div className="gallery-card scroll-reveal">
             <div className="gallery-img-wrapper">
-              <img src={IMG_BOWL} alt="Artisan Salad" />
+              <img src={imgBowl} alt="Artisan Salad" />
               <div className="overlay-batch-status">
                 <span className="status-badge">4/8 Joined</span>
               </div>
@@ -172,7 +172,7 @@ function LandingPage() {
 
           <div className="gallery-card scroll-reveal">
             <div className="gallery-img-wrapper">
-              <img src={IMG_SUSHI} alt="Matsuhisa Omakase" />
+              <img src={imgSushi} alt="Matsuhisa Omakase" />
               <div className="overlay-batch-status">
                 <span className="status-badge">7/10 Joined</span>
               </div>
@@ -186,7 +186,7 @@ function LandingPage() {
 
           <div className="gallery-card scroll-reveal">
             <div className="gallery-img-wrapper">
-              <img src={IMG_STEAK} alt="Cut by Wolfgang" />
+              <img src={imgSteak} alt="Cut by Wolfgang" />
               <div className="overlay-batch-status">
                 <span className="status-badge">2/5 Joined</span>
               </div>
