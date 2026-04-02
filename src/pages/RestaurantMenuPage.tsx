@@ -59,7 +59,7 @@ export default function RestaurantMenuPage() {
       {/* Hero */}
       <div style={{ height: '300px', borderRadius: '16px', overflow: 'hidden', position: 'relative', marginBottom: '2.5rem', boxShadow: '0 8px 30px rgba(0,0,0,0.06)' }}>
         <img 
-          src={restaurant.imageUrl || 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1000'} 
+          src={restaurant.imageUrl || 'https://loremflickr.com/1000/800/restaurant,food'} 
           alt={restaurant.name} 
           style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
         />
