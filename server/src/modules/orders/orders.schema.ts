@@ -9,7 +9,7 @@ export const createOrderSchema = z.object({
     })
   ).min(1, 'At least one item is required'),
   driverTip: z.number().min(0).default(0),
-  paymentMethod: z.enum(['WALLET', 'COD']).default('WALLET'),
+  paymentMethod: z.enum(['WALLET', 'COD', 'RAZORPAY']).default('WALLET'),
 });
 
 export type CreateOrderInput = z.infer<typeof createOrderSchema>;
