@@ -272,7 +272,7 @@ export default function DashboardPage() {
               >
                 {/* Card Image */}
                 <div className="dash-batch-img-wrap">
-                  <img src={imgSrc} alt={restaurant?.name} />
+                  <img src={imgSrc} alt={restaurant?.name} onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1000&auto=format&fit=crop'; }} />
                   <div className="dash-batch-badge">
                     <Clock size={13} /> {displayTime}
                   </div>
@@ -344,7 +344,7 @@ export default function DashboardPage() {
               <div key={rest.id} className="dash-restaurant-card">
                 {/* Restaurant Image */}
                 <div className="dash-restaurant-img-wrap">
-                  <img src={imgSrc} alt={rest.name} />
+                  <img src={imgSrc} alt={rest.name} onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1000&auto=format&fit=crop'; }} />
                   <div className="dash-restaurant-rating">
                     <Star size={13} fill="#f59e0b" color="#f59e0b" /> {rest.rating || '4.5'}
                   </div>

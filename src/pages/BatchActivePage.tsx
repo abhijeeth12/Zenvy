@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Users, Clock, Send, ShoppingBag, LogOut, Zap, AlertCircle } from 'lucide-react';
 // Image resolved from restaurant data or Unsplash fallback
+const FALLBACK_FOOD = 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=500&auto=format&fit=crop';
 import { apiClient } from '../api';
 import { useCart } from '../contexts/CartContext';
 import { useAuth } from '../contexts/AuthContext';
@@ -171,11 +172,14 @@ export default function BatchActivePage() {
                 onMouseEnter={(e) => e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.04)'}
                 onMouseLeave={(e) => e.currentTarget.style.boxShadow = 'none'}
               >
-                {item.imageUrl && (
-                  <div style={{ width: '80px', height: '80px', borderRadius: '12px', overflow: 'hidden', flexShrink: 0 }}>
-                    <img src={item.imageUrl} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <div style={{ width: '80px', height: '80px', borderRadius: '12px', overflow: 'hidden', flexShrink: 0 }}>
+                    <img
+                      src={item.imageUrl || FALLBACK_FOOD}
+                      alt={item.name}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      onError={(e) => { (e.target as HTMLImageElement).src = FALLBACK_FOOD; }}
+                    />
                   </div>
-                )}
                 
                 <div style={{ flex: 1 }}>
                   <h3 style={{ margin: '0 0 0.4rem 0', fontFamily: 'Playfair Display, serif', fontSize: '1.25rem', color: '#2c2420', fontWeight: 700 }}>{item.name}</h3>

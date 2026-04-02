@@ -3,20 +3,19 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, MapPin, Utensils } from 'lucide-react';
 import { apiClient } from '../api';
 
+const FALLBACK_FOOD = 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=500&auto=format&fit=crop';
+const FALLBACK_RESTAURANT = 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1400&auto=format&fit=crop';
+
 export default function RestaurantMenuPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [restaurant, setRestaurant] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
-  // We should fetch the restaurant. If it fails, we fall back.
   useEffect(() => {
     const fetchMenu = async () => {
       try {
         setLoading(true);
-        // We will call GET /restaurants/:id or POST /restaurants/ensure 
-        // to get the menu if it exists.
-        // Actually, we can fetch by id, but wait, if it's mock, we might need ensure.
         const res = await apiClient.get(`/restaurants/${id}`);
         setRestaurant(res.data || res);
       } catch (err) {
@@ -59,7 +58,7 @@ export default function RestaurantMenuPage() {
       {/* Hero */}
       <div style={{ height: '300px', borderRadius: '16px', overflow: 'hidden', position: 'relative', marginBottom: '2.5rem', boxShadow: '0 8px 30px rgba(0,0,0,0.06)' }}>
         <img 
-          src={restaurant.imageUrl || 'https://loremflickr.com/1000/800/restaurant,food'} 
+          src={restaurant.imageUrl || FALLBACK_RESTAURANT} 
           alt={restaurant.name} 
           style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
         />
@@ -87,11 +86,14 @@ export default function RestaurantMenuPage() {
                    onMouseEnter={(e) => e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.04)'}
                    onMouseLeave={(e) => e.currentTarget.style.boxShadow = 'none'}>
                 
-                {item.imageUrl && (
-                  <div style={{ width: '100px', height: '100px', borderRadius: '12px', overflow: 'hidden', flexShrink: 0 }}>
-                    <img src={item.imageUrl} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <div style={{ width: '100px', height: '100px', borderRadius: '12px', overflow: 'hidden', flexShrink: 0 }}>
+                    <img
+                      src={item.imageUrl || FALLBACK_FOOD}
+                      alt={item.name}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      onError={(e) => { (e.target as HTMLImageElement).src = FALLBACK_FOOD; }}
+                    />
                   </div>
-                )}
                 
                 <div style={{ flex: 1 }}>
                   <h3 style={{ margin: '0 0 0.4rem 0', fontFamily: 'Playfair Display, serif', fontSize: '1.35rem', color: '#2c2420', fontWeight: 700 }}>{item.name}</h3>
