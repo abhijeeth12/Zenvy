@@ -1,5 +1,6 @@
 import { prisma } from '../../config/database.js';
 import type { CreateOrderInput } from './orders.schema.js';
+import { paymentsService } from '../../utils/razorpay.js';
 
 export class OrdersService {
   async create(userId: string, input: CreateOrderInput) {
@@ -75,7 +76,7 @@ export class OrdersService {
     }
 
     // Create order, participant in transaction
-    const order = await prisma.$transaction(async (tx) => {
+    let order: any = await prisma.$transaction(async (tx) => {
       const newOrder = await tx.order.create({
         data: {
           userId,
@@ -85,7 +86,7 @@ export class OrdersService {
           driverTip,
           total,
           paymentMethod,
-          paymentStatus: 'AUTHORIZED',
+          paymentStatus: paymentMethod === 'WALLET' || paymentMethod === 'COD' ? 'AUTHORIZED' : 'PENDING',
           items: {
             create: orderItems,
           },
@@ -108,8 +109,24 @@ export class OrdersService {
       return newOrder;
     });
 
+    let razorpayOrderId;
+    if (paymentMethod === 'RAZORPAY') {
+      const paymentOrder = await paymentsService.createPaymentOrder(total, order.id, { userId });
+      order = await prisma.order.update({
+        where: { id: order.id },
+        data: { paymentReference: paymentOrder.id } as any,
+        include: {
+          items: {
+            include: { menuItem: { select: { name: true, category: true } } },
+          },
+        },
+      });
+      razorpayOrderId = paymentOrder.id;
+    }
+
     return {
       ...order,
+      razorpayOrderId,
       savings: Math.round((batch.soloDeliveryFee - deliveryFeeShare) * 100) / 100,
     };
   }

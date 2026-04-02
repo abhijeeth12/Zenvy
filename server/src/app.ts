@@ -16,6 +16,7 @@ import { statsRoutes } from './modules/stats/stats.routes.js';
 import { addressRoutes } from './modules/addresses/addresses.routes.js';
 import { cartRoutes } from './modules/cart/cart.routes.js';
 import { walletRoutes } from './modules/wallet/wallet.routes.js';
+import { paymentRoutes } from './modules/payments/payments.routes.js';
 
 export async function buildApp() {
   const app = Fastify({
@@ -71,6 +72,7 @@ export async function buildApp() {
       await api.register(addressRoutes);
       await api.register(cartRoutes);
       await api.register(walletRoutes, { prefix: '/wallet' });
+      await api.register(paymentRoutes, { prefix: '/payments' });
     },
     { prefix: '/api/v1' }
   );

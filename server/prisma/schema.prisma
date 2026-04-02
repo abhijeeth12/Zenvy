@@ -199,6 +199,7 @@ model Order {
   total            Float
   paymentMethod    PaymentMethod @default(WALLET) @map("payment_method")
   paymentStatus    PaymentStatus @default(PENDING) @map("payment_status")
+  paymentReference String?       @map("payment_reference")
   createdAt        DateTime    @default(now()) @map("created_at")
   updatedAt        DateTime    @updatedAt @map("updated_at")
 
@@ -222,6 +223,7 @@ enum OrderStatus {
 enum PaymentMethod {
   WALLET
   COD
+  RAZORPAY
 }
 
 enum PaymentStatus {

@@ -3,6 +3,15 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { CheckCircle2, ShieldCheck, ArrowRight, Wallet, Banknote, Users } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 import { apiClient } from '../api';
+const loadRazorpayScript = () => {
+  return new Promise((resolve) => {
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+};
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
@@ -15,7 +24,7 @@ export default function CheckoutPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [batchInfo, setBatchInfo] = useState<any>(null);
-  const [selectedPayment, setSelectedPayment] = useState<'WALLET' | 'COD'>(ctxPaymentMethod || 'WALLET');
+  const [selectedPayment, setSelectedPayment] = useState<'WALLET' | 'COD' | 'RAZORPAY'>((ctxPaymentMethod as any) === 'RAZORPAY' || ctxPaymentMethod === 'COD' ? (ctxPaymentMethod as any) : 'WALLET');
   
   // 1 = Select Payment & Join, 2 = Confirm Order
   const [step, setStep] = useState(1);
@@ -74,14 +83,52 @@ export default function CheckoutPage() {
     setError(null);
     try {
       const items = cart.items.map(item => ({ menuItemId: item.menuItemId, quantity: item.quantity }));
-      await apiClient.post('/orders', {
+      const response: any = await apiClient.post('/orders', {
         batchId,
         items,
         driverTip,
         paymentMethod: selectedPayment,
       });
-      await clearCart();
-      setComplete(true);
+
+      if (selectedPayment === 'RAZORPAY' && response.razorpayOrderId) {
+        const scriptLoaded = await loadRazorpayScript();
+        if (!scriptLoaded) {
+          setError('Failed to load Razorpay SDK');
+          return;
+        }
+
+        const options = {
+          key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_123',
+          amount: Math.round(total * 100).toString(),
+          currency: 'INR',
+          name: 'Zenvy',
+          description: 'Order Payment',
+          order_id: response.razorpayOrderId,
+          handler: async function (paymentRes: any) {
+            try {
+              await apiClient.post('/payments/verify', {
+                razorpay_order_id: paymentRes.razorpay_order_id,
+                razorpay_payment_id: paymentRes.razorpay_payment_id,
+                razorpay_signature: paymentRes.razorpay_signature,
+              });
+              await clearCart();
+              setComplete(true);
+            } catch (err) {
+              setError('Payment verification failed.');
+            }
+          },
+          theme: { color: '#c96442' }
+        };
+
+        const paymentObject = new (window as any).Razorpay(options);
+        paymentObject.on('payment.failed', function () {
+          setError('Payment failed or cancelled.');
+        });
+        paymentObject.open();
+      } else {
+        await clearCart();
+        setComplete(true);
+      }
     } catch (err: any) {
       setError(err.message || 'Order placement failed. Please try again.');
     } finally {
@@ -145,7 +192,7 @@ export default function CheckoutPage() {
 
               {/* Payment method */}
               <p style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#8a7d76', marginBottom: '0.6rem' }}>Select Option</p>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem', marginBottom: '2rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.5rem', marginBottom: '2rem' }}>
                 <button
                   onClick={() => setSelectedPayment('WALLET')}
                   style={{
@@ -179,6 +226,23 @@ export default function CheckoutPage() {
                   }}
                 >
                   <Banknote size={18} /> COD
+                </button>
+                <button
+                  onClick={() => setSelectedPayment('RAZORPAY')}
+                  style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem',
+                    padding: '0.85rem',
+                    background: selectedPayment === 'RAZORPAY' ? '#2c2420' : '#f9f8f6',
+                    color: selectedPayment === 'RAZORPAY' ? '#fff' : '#2c2420',
+                    border: selectedPayment === 'RAZORPAY' ? '1px solid #2c2420' : '1px solid rgba(44,36,32,0.08)',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    fontWeight: 600,
+                    fontSize: '0.9rem',
+                    transition: 'all 0.15s',
+                  }}
+                >
+                  <ShieldCheck size={18} /> Card (Razorpay)
                 </button>
               </div>
 

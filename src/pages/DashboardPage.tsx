@@ -26,7 +26,7 @@ const CUISINE_IMAGES: Record<string, string> = {
 
 const RESTAURANT_IMAGES: Record<string, string> = {
   'Matsuhisa Omakase': 'https://images.unsplash.com/photo-1553621042-f6e147245754?q=80&w=1000&auto=format&fit=crop',
-  'Cut by Wolfgang Puck': 'https://images.unsplash.com/photo-1544025162-835ab03fa85f?q=80&w=1000&auto=format&fit=crop',
+  'Cut by Wolfgang Puck': '/assets/wolfgang_puck.png',
   'Sweetgreen Artisan': 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1000&auto=format&fit=crop',
   'Nobu Kitchen': 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=1000&auto=format&fit=crop',
   'Eataly Express': 'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?q=80&w=1000&auto=format&fit=crop',
