@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import foodieImg from '../assets/steakhouse.png';
+// Steakhouse hero image for sign-up panel
 import { apiClient } from '../api';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -88,7 +88,7 @@ export default function SignUpPage() {
       {/* Left side: Premium Culinary Image */}
       <div style={{ width: '45%', flexShrink: 0, position: 'relative', display: 'flex' }}>
         <img 
-          src={foodieImg} 
+          src="https://images.unsplash.com/photo-1544025162-835ab03fa85f?q=80&w=1400&auto=format&fit=crop" 
           alt="Premium Culinary Experience" 
           style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', transform: 'scaleX(-1)' }} 
         />

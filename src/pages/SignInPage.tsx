@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import foodieImg from '../assets/omakase.png';
+// Omakase hero image — premium sushi platter
 import { apiClient } from '../api';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -81,7 +81,7 @@ export default function SignInPage() {
       {/* Left side: Premium Culinary Image */}
       <div style={{ width: '45%', flexShrink: 0, position: 'relative', display: 'flex' }}>
         <img 
-          src={foodieImg} 
+          src="https://images.unsplash.com/photo-1553621042-f6e147245754?q=80&w=1400&auto=format&fit=crop" 
           alt="Premium Culinary Experience" 
           style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} 
         />

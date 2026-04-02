@@ -5,7 +5,7 @@ import { apiClient } from '../api';
 import './DashboardPage.css';
 
 // Local assets — updated with premium generated imagery
-import heroBg from '../assets/hero_moody.png';
+// All images sourced from Unsplash (no local assets)
 
 // ============================================
 // Image Mapping — maps cuisines/restaurants to available assets
@@ -26,7 +26,7 @@ const CUISINE_IMAGES: Record<string, string> = {
 
 const RESTAURANT_IMAGES: Record<string, string> = {
   'Matsuhisa Omakase': 'https://images.unsplash.com/photo-1553621042-f6e147245754?q=80&w=1000&auto=format&fit=crop',
-  'Cut by Wolfgang Puck': '/assets/wolfgang_puck.png',
+  'Cut by Wolfgang Puck': 'https://images.unsplash.com/photo-1558030006-450675393462?q=80&w=1000&auto=format&fit=crop',
   'Sweetgreen Artisan': 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1000&auto=format&fit=crop',
   'Nobu Kitchen': 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=1000&auto=format&fit=crop',
   'Eataly Express': 'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?q=80&w=1000&auto=format&fit=crop',
@@ -208,7 +208,7 @@ export default function DashboardPage() {
     <div className="fade-in">
 
       {/* ========== Hero Welcome Banner ========== */}
-      <div className="dash-hero" style={{ backgroundImage: `url(${heroBg})` }}>
+      <div className="dash-hero" style={{ backgroundImage: `url(https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2000&auto=format&fit=crop)` }}>
         <div className="dash-hero-content">
           <h1 className="dash-greeting">{getGreeting()}.</h1>
           <p className="dash-greeting-sub">

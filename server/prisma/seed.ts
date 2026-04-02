@@ -62,7 +62,7 @@ async function main() {
       cuisine: 'Steakhouse',
       description: 'World-renowned steaks with impeccable service.',
       address: '9500 Wilshire Blvd, Beverly Hills, CA 90212',
-      imageUrl: '/assets/wolfgang_puck.png',
+      imageUrl: 'https://images.unsplash.com/photo-1558030006-450675393462?q=80&w=1000&auto=format&fit=crop',
       rating: 4.7,
       latitude: 34.0652,
       longitude: -118.3997,
@@ -150,7 +150,7 @@ async function main() {
   await prisma.menuItem.createMany({
     data: [
       { restaurantId: wolfgangPuck.id, name: 'USDA Prime Bone-In Ribeye', description: '16oz dry-aged 35 days, served with bone marrow.', price: 85, batchPrice: 68, category: 'Steaks', sortOrder: 1, imageUrl: 'https://images.unsplash.com/photo-1558030006-450675393462?w=500&q=80' },
-      { restaurantId: wolfgangPuck.id, name: 'Japanese Wagyu A5', description: 'Miyazaki tenderloin, 4oz, with truffle butter.', price: 150, batchPrice: 120, category: 'Steaks', sortOrder: 2, imageUrl: '/assets/japanese_wagyu.png' },
+      { restaurantId: wolfgangPuck.id, name: 'Japanese Wagyu A5', description: 'Miyazaki tenderloin, 4oz, with truffle butter.', price: 150, batchPrice: 120, category: 'Steaks', sortOrder: 2, imageUrl: 'https://images.unsplash.com/photo-1544025162-835ab03fa85f?q=80&w=500&auto=format&fit=crop' },
       { restaurantId: wolfgangPuck.id, name: 'Lobster Oscar', description: 'Maine lobster with asparagus and béarnaise.', price: 65, batchPrice: 52, category: 'Seafood', sortOrder: 3, imageUrl: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&q=80' },
       { restaurantId: wolfgangPuck.id, name: 'Maple-Glazed Carrots', description: 'Heirloom carrots with hazelnut praline.', price: 18, batchPrice: 14, category: 'Sides', sortOrder: 4, imageUrl: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=500&q=80' },
     ],
@@ -171,7 +171,7 @@ async function main() {
   // ─── Menu Items (Eataly) ───────────────────────
   await prisma.menuItem.createMany({
     data: [
-      { restaurantId: eataly.id, name: 'Margherita Pizza', description: 'Classic pizza with fresh mozzarella and basil.', price: 18, batchPrice: 14, category: 'Pizza', sortOrder: 1, imageUrl: '/assets/margherita_pizza.png' },
+      { restaurantId: eataly.id, name: 'Margherita Pizza', description: 'Classic pizza with fresh mozzarella and basil.', price: 18, batchPrice: 14, category: 'Pizza', sortOrder: 1, imageUrl: 'https://images.unsplash.com/photo-1574071318508-1cdbad80ad38?q=80&w=500&auto=format&fit=crop' },
       { restaurantId: eataly.id, name: 'Spaghetti Carbonara', description: 'Traditional Roman pasta with guanciale and pecorino.', price: 22, batchPrice: 17, category: 'Pasta', sortOrder: 2, imageUrl: 'https://images.unsplash.com/photo-1546548970-71785318a17b?w=500&q=80' },
     ],
     skipDuplicates: true,
@@ -181,7 +181,7 @@ async function main() {
   await prisma.menuItem.createMany({
     data: [
       { restaurantId: shakeShack.id, name: 'ShackBurger', description: 'Single cheeseburger with lettuce, tomato, and ShackSauce.', price: 8, batchPrice: 6, category: 'Burgers', sortOrder: 1, imageUrl: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&q=80' },
-      { restaurantId: shakeShack.id, name: 'Crinkle Cut Fries', description: 'Crispy, crinkle cut fries.', price: 4, batchPrice: 3, category: 'Sides', sortOrder: 2, imageUrl: '/assets/crinkle_cut_fries.png' },
+      { restaurantId: shakeShack.id, name: 'Crinkle Cut Fries', description: 'Crispy, crinkle cut fries.', price: 4, batchPrice: 3, category: 'Sides', sortOrder: 2, imageUrl: 'https://images.unsplash.com/photo-1576107232684-1279f5dd5efa?q=80&w=500&auto=format&fit=crop' },
     ],
     skipDuplicates: true,
   });

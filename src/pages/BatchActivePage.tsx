@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Users, Clock, Send, ShoppingBag, LogOut, Zap, AlertCircle } from 'lucide-react';
-import sushiImg from '../assets/sushi.png';
+// Image resolved from restaurant data or Unsplash fallback
 import { apiClient } from '../api';
 import { useCart } from '../contexts/CartContext';
 import { useAuth } from '../contexts/AuthContext';
@@ -117,7 +117,7 @@ export default function BatchActivePage() {
         
         {/* Header Hero */}
         <div style={{ height: '260px', borderRadius: '16px', overflow: 'hidden', position: 'relative', marginBottom: '2rem', boxShadow: '0 8px 30px rgba(0,0,0,0.1)' }}>
-          <img src={sushiImg} alt={batch.restaurant.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <img src={batch.restaurant?.imageUrl || 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1400&auto=format&fit=crop'} alt={batch.restaurant.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(20,16,14,0.95), rgba(20,16,14,0.1))' }} />
           <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '2rem' }}>
             <h1 style={{ fontFamily: 'Inter, sans-serif', fontSize: '2.25rem', margin: '0 0 0.75rem 0', color: '#fff', fontWeight: 700, letterSpacing: '-0.02em' }}>
