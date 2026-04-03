@@ -127,9 +127,10 @@
   position: relative;
   z-index: 10;
   width: 100%;
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 0 2rem;
+  /* Unequal padding visually shifts the 'centered' content slightly to the left */
+  padding: 0 10% 0 2%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -546,7 +547,7 @@
   .hero-cards-composition { height: 280px; margin-top: 1rem; }
   .card-shared-cart { top: 0; right: 10%; width: 240px; }
   .card-batch-status { top: 35%; right: 50%; width: 200px; }
-  .card-savings { bottom: 0; right: 15%; width: 190px; }
+
   .how-body { grid-template-columns: 1fr; gap: 2.5rem; }
   .how-visual-sticky { position: relative; top: 0; }
   .how-visual-frame { aspect-ratio: 16 / 10; max-height: 400px; }
@@ -563,11 +564,6 @@
   .hero-section { min-height: 100svh; }
   .hero-inner { padding: 0 1.5rem; padding-top: 5rem; }
   .hero-headline { font-size: 2.4rem; }
-  .hero-layer { display: none; }
-  .hero-cards-composition { height: 240px; }
-  .card-shared-cart { width: 210px; right: 0; }
-  .card-batch-status { width: 175px; right: 40%; }
-  .card-savings { width: 160px; right: 5%; }
   .hero-cta-group { flex-direction: column; align-items: stretch; }
   .btn-primary-hero, .btn-secondary-hero { justify-content: center; }
   .how-section { padding: 5rem 1.5rem; }
