@@ -89,31 +89,7 @@ export function initLandingAnimations(scope: HTMLElement): gsap.Context {
           0.9
         );
 
-        // Floating cards — staggered entrance
-        heroEntrance.fromTo('.floating-card',
-          { opacity: 0, y: 50, scale: 0.9 },
-          { opacity: 1, y: 0, scale: 1, stagger: 0.12, duration: 0.7, ease: 'power3.out' },
-          0.6
-        );
 
-        // Layered food images — subtle entrance
-        heroEntrance.fromTo('.hero-layer-1',
-          { opacity: 0, y: 30, scale: 0.85, rotate: -10 },
-          { opacity: 0.35, y: 0, scale: 1, rotate: -6, duration: 1, ease: 'power2.out' },
-          0.5
-        );
-        heroEntrance.fromTo('.hero-layer-2',
-          { opacity: 0, y: -20, scale: 0.85, rotate: 8 },
-          { opacity: 0.35, y: 0, scale: 1, rotate: 4, duration: 1, ease: 'power2.out' },
-          0.65
-        );
-
-        // Card bobbing (after entrance completes)
-        heroEntrance.add(() => {
-          gsap.to('.card-shared-cart', { y: -8, duration: 3, ease: 'sine.inOut', repeat: -1, yoyo: true });
-          gsap.to('.card-batch-status', { y: 6, duration: 3.5, ease: 'sine.inOut', repeat: -1, yoyo: true });
-          gsap.to('.card-savings', { y: -5, duration: 2.8, ease: 'sine.inOut', repeat: -1, yoyo: true });
-        });
 
         // Scroll parallax: different layers move at different speeds
         gsap.to('.hero-bg', {
@@ -121,26 +97,13 @@ export function initLandingAnimations(scope: HTMLElement): gsap.Context {
           ease: 'none',
           scrollTrigger: { trigger: '.hero-section', start: 'top top', end: 'bottom top', scrub: true },
         });
-        gsap.to('.hero-layer-1', {
-          yPercent: -30,
-          ease: 'none',
-          scrollTrigger: { trigger: '.hero-section', start: 'top top', end: 'bottom top', scrub: true },
-        });
-        gsap.to('.hero-layer-2', {
-          yPercent: 20,
-          ease: 'none',
-          scrollTrigger: { trigger: '.hero-section', start: 'top top', end: 'bottom top', scrub: true },
-        });
+
         gsap.to('.hero-text-block', {
           yPercent: 25, opacity: 0,
           ease: 'none',
           scrollTrigger: { trigger: '.hero-section', start: '60% top', end: 'bottom top', scrub: true },
         });
-        gsap.to('.hero-cards-composition', {
-          yPercent: 15, opacity: 0,
-          ease: 'none',
-          scrollTrigger: { trigger: '.hero-section', start: '60% top', end: 'bottom top', scrub: true },
-        });
+
 
         /* ─── 2. HOW It Works handled by WorkflowSection (self-contained) ─── */
 
@@ -248,11 +211,7 @@ export function initLandingAnimations(scope: HTMLElement): gsap.Context {
           { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' },
           0.65
         );
-        mobileHero.fromTo('.floating-card',
-          { opacity: 0, y: 25 },
-          { opacity: 1, y: 0, stagger: 0.08, duration: 0.5, ease: 'power2.out' },
-          0.7
-        );
+
 
         // Gentle BG breathing
         gsap.fromTo('.hero-bg',

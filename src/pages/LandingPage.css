@@ -119,28 +119,7 @@
   pointer-events: none;
 }
 
-/* ── Layered food images for visual depth ── */
-.hero-layer {
-  position: absolute;
-  z-index: 3;
-  border-radius: 20px;
-  object-fit: cover;
-  will-change: transform;
-  backface-visibility: hidden;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
-  opacity: 0.35;
-  pointer-events: none;
-}
-.hero-layer-1 {
-  width: 260px; height: 260px;
-  bottom: 8%; left: 3%;
-  transform: rotate(-6deg);
-}
-.hero-layer-2 {
-  width: 200px; height: 200px;
-  top: 12%; right: 2%;
-  transform: rotate(4deg);
-}
+
 
 /* ── Hero Transition Sweep ── */
 .hero-transition-sweep {
@@ -158,16 +137,21 @@
   position: relative;
   z-index: 10;
   width: 100%;
-  max-width: 1400px;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 0 4rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+  padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  text-align: center;
 }
 
-.hero-text-block { color: #ffffff; }
+.hero-text-block { 
+  color: #ffffff; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 .hero-tag {
   display: inline-block;
@@ -194,7 +178,7 @@
   line-height: 1.7; margin-bottom: 2.5rem;
   max-width: 520px; letter-spacing: 0.01em;
 }
-.hero-cta-group { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.hero-cta-group { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; justify-content: center; }
 
 .btn-primary-hero {
   display: inline-flex; align-items: center; gap: 0.7rem;
@@ -217,36 +201,7 @@
 }
 .btn-secondary-hero:hover { border-color: rgba(255, 255, 255, 0.5); background: rgba(255, 255, 255, 0.08); transform: translateY(-1px); }
 
-/* ── Floating Cards ── */
-.hero-cards-composition { position: relative; height: 500px; perspective: 800px; }
 
-.floating-card {
-  position: absolute;
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 16px; padding: 1.25rem; color: #ffffff;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-  will-change: transform; backface-visibility: hidden;
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.floating-card:hover { transform: translateY(-4px) scale(1.02) !important; }
-
-.card-shared-cart { top: 5%; right: 0; width: 280px; z-index: 3; }
-.card-batch-status { top: 40%; right: 30%; width: 240px; z-index: 4; }
-.card-savings { bottom: 8%; right: 5%; width: 220px; z-index: 2; }
-
-.fc-label { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 0.75rem; }
-.fc-main-value { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 600; margin-bottom: 0.5rem; color: #ffb59d; }
-.fc-detail { font-size: 0.82rem; color: rgba(255,255,255,0.7); line-height: 1.5; }
-.fc-items { display: flex; flex-direction: column; gap: 0.5rem; }
-.fc-item-row { display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0; font-size: 0.82rem; border-bottom: 1px solid rgba(255,255,255,0.08); }
-.fc-item-row:last-child { border-bottom: none; }
-.fc-avatars { display: flex; margin-top: 0.75rem; }
-.fc-avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, #c96442, #b89562); border: 2px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: 700; margin-left: -6px; }
-.fc-avatar:first-child { margin-left: 0; }
-.fc-progress-bar { height: 4px; background: rgba(255,255,255,0.15); border-radius: 2px; margin-top: 0.75rem; overflow: hidden; }
-.fc-progress-fill { height: 100%; background: linear-gradient(90deg, #c96442, #ffb59d); border-radius: 2px; width: 50%; }
 
 /* ═══════════════════════════════════════════
    HOW IT WORKS — Sticky Image Panel
@@ -648,16 +603,15 @@
 
 @media (max-width: 480px) {
   .metrics-grid { grid-template-columns: 1fr; }
-  .hero-cards-composition { display: none; }
 }
 
 /* ═══════════════════════════════════════════
    REDUCED MOTION
    ═══════════════════════════════════════════ */
 @media (prefers-reduced-motion: reduce) {
-  .hero-word, .hero-sub, .hero-cta-group, .floating-card,
+  .hero-word, .hero-sub, .hero-cta-group,
   .step-item, .feature-card, .showcase-panel, .metric-item,
-  .hero-bg, .hero-layer, .how-step-img {
+  .hero-bg, .how-step-img {
     opacity: 1 !important;
     transform: none !important;
     clip-path: none !important;

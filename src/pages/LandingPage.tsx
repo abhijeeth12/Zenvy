@@ -17,8 +17,6 @@ import { initLandingAnimations } from '../animations/heroAnimations';
 import WorkflowSection from '../components/WorkflowSection';
 
 import heroBg from '../assets/hero_moody.png';
-import imgBowl from '../assets/artisan_salad.png';
-import imgSushi from '../assets/omakase.png';
 import imgSteak from '../assets/steakhouse.png';
 
 /* ── Word splitter for staggered text ── */
@@ -89,9 +87,6 @@ export default function LandingPage() {
         <div className="hero-bg" style={{ backgroundImage: `url(${heroBg})` }} />
         <div className="hero-gradient-overlay" />
 
-        {/* Layered food images for depth */}
-        <img src={imgBowl} alt="" className="hero-layer hero-layer-1" />
-        <img src={imgSushi} alt="" className="hero-layer hero-layer-2" />
 
         <div className="hero-inner">
           <div className="hero-text-block">
@@ -119,34 +114,7 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Floating glassmorphism UI cards */}
-          <div className="hero-cards-composition">
-            <div className="floating-card card-shared-cart">
-              <div className="fc-label">Shared Cart</div>
-              <div className="fc-items">
-                <div className="fc-item-row"><span>🍔 Classic Burger</span><span>$12.99</span></div>
-                <div className="fc-item-row"><span>🥗 Caesar Salad</span><span>$9.50</span></div>
-                <div className="fc-item-row"><span>🍜 Pad Thai</span><span>$14.25</span></div>
-              </div>
-              <div className="fc-avatars">
-                <div className="fc-avatar">AJ</div>
-                <div className="fc-avatar">RK</div>
-                <div className="fc-avatar">SM</div>
-                <div className="fc-avatar">+2</div>
-              </div>
-            </div>
-            <div className="floating-card card-batch-status">
-              <div className="fc-label">Batch Status</div>
-              <div className="fc-main-value">4/8</div>
-              <div className="fc-detail">Members joined</div>
-              <div className="fc-progress-bar"><div className="fc-progress-fill" /></div>
-            </div>
-            <div className="floating-card card-savings">
-              <div className="fc-label">You're Saving</div>
-              <div className="fc-main-value">$12.40</div>
-              <div className="fc-detail">vs. individual orders</div>
-            </div>
-          </div>
+
         </div>
 
         {/* Section transition — swoosh into next section */}
