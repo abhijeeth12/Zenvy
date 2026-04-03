@@ -8,6 +8,7 @@ import {
   MessageSquare,
   Scale,
   Sparkles,
+  Leaf,
 } from 'lucide-react';
 import './LandingPage.css';
 
@@ -35,6 +36,7 @@ const FEATURES = [
   { icon: <DollarSign size={24} />, title: 'Lower Delivery Costs', desc: 'Split one optimized delivery fee across the group — save on every order.' },
   { icon: <MessageSquare size={24} />, title: 'Zero Ordering Chaos', desc: 'Everyone browses, picks, and confirms within one clean interface.' },
   { icon: <Scale size={24} />, title: 'Fair & Streamlined', desc: 'Everyone pays their share automatically. No awkward split calculations.' },
+  { icon: <Leaf size={24} />, title: 'Eco-Friendly Group Ordering', desc: 'Consolidated group deliveries reduce repeated trips, lower packaging waste, and make every order more sustainable.' },
 ];
 
 /* ── METRICS DATA ── */

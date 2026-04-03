@@ -446,9 +446,6 @@
   margin: 0 auto;
 }
 
-/* last 2 cards in a row of 2, centered */
-.feature-card:nth-child(4) { grid-column: 1 / 2; }
-.feature-card:nth-child(5) { grid-column: 2 / 3; }
 
 .feature-card {
   background: rgba(255, 255, 255, 0.05);
