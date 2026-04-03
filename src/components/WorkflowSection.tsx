@@ -265,7 +265,7 @@ export default function WorkflowSection() {
       ScrollTrigger.create({
         trigger: sticky,
         start: 'top top',
-        end: `+=${(N - 1) * 200}vh`,
+        end: `+=${(N - 1) * 160}vh`,
         pin: true,
         pinSpacing: true,
         anticipatePin: 1,
