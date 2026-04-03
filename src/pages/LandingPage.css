@@ -11,7 +11,9 @@
   color: #1a1c1b;
   width: 100%;
   max-width: 100%;
-  overflow-x: hidden;
+  /* clip = visually identical to hidden but does NOT create a scroll context,
+     which means position:sticky children work relative to the window */
+  overflow-x: clip;
   position: relative;
 }
 

@@ -6,6 +6,9 @@
 .wf-section {
   height: 500vh;
   position: relative;
+  /* Safety net: entire scroll container shares the dark bg so
+     no white page background ever bleeds through during scroll */
+  background: #0e0c0a;
 }
 
 /* ── Sticky viewport ── */
