@@ -117,8 +117,7 @@ export default function LandingPage() {
 
         </div>
 
-        {/* Section transition — swoosh into next section */}
-        <div className="hero-transition-sweep" />
+
       </section>
 
       {/* ═══ HOW IT WORKS — Cinematic Scrollytelling ═══ */}

@@ -121,17 +121,7 @@
 
 
 
-/* ── Hero Transition Sweep ── */
-.hero-transition-sweep {
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  right: 0;
-  height: 120px;
-  background: linear-gradient(to bottom, transparent, #faf9f7);
-  z-index: 20;
-  pointer-events: none;
-}
+
 
 .hero-inner {
   position: relative;
