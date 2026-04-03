@@ -71,11 +71,11 @@ function activateStep(
   section: HTMLElement,
   instant: boolean
 ) {
-  const imgCards  = section.querySelectorAll<HTMLElement>('[data-img-card]');
+  const imgCards = section.querySelectorAll<HTMLElement>('[data-img-card]');
   const textCards = section.querySelectorAll<HTMLElement>('[data-text-card]');
-  const dots      = section.querySelectorAll<HTMLElement>('[data-dot]');
-  const fill      = section.querySelector<HTMLElement>('[data-progress-fill]');
-  const ambient   = section.querySelector<HTMLElement>('.wf-ambient');
+  const dots = section.querySelectorAll<HTMLElement>('[data-dot]');
+  const fill = section.querySelector<HTMLElement>('[data-progress-fill]');
+  const ambient = section.querySelector<HTMLElement>('.wf-ambient');
 
   /* kill any active tweens to prevent conflicts */
   gsap.killTweensOf([...imgCards, ...textCards]);
@@ -110,8 +110,8 @@ function activateStep(
   /* --- Image cards --- */
   imgCards.forEach((card, i) => {
     const isActive = i === nextIdx;
-    const isNext   = i === nextIdx + 1;
-    const isPrev   = prevIdx !== null && i === prevIdx;
+    const isNext = i === nextIdx + 1;
+    const isPrev = prevIdx !== null && i === prevIdx;
     const goingFwd = prevIdx !== null ? nextIdx > prevIdx : true;
 
     card.setAttribute('data-active', isActive ? 'true' : 'false');
@@ -119,12 +119,12 @@ function activateStep(
 
     if (instant) {
       gsap.set(card, {
-        opacity:  isActive ? 1 : isNext ? 0.28 : 0,
-        scale:    isActive ? 1 : isNext ? 0.88 : 0.82,
-        rotate:   isActive ? (i % 2 === 0 ? -1.5 : 1.5) : (i % 2 === 0 ? 2 : -2),
+        opacity: isActive ? 1 : isNext ? 0.28 : 0,
+        scale: isActive ? 1 : isNext ? 0.88 : 0.82,
+        rotate: isActive ? (i % 2 === 0 ? -1.5 : 1.5) : (i % 2 === 0 ? 2 : -2),
         clipPath: 'inset(0% 0% 0% 0% round 28px)',
         y: 0,
-        zIndex:   isActive ? 10 : isNext ? 5 : 1,
+        zIndex: isActive ? 10 : isNext ? 5 : 1,
       });
       return;
     }
@@ -202,12 +202,12 @@ function activateStep(
     }
 
     if (isActive) {
-      const tag    = card.querySelector('.wf-tc-tag');
-      const label  = card.querySelector('.wf-tc-label');
-      const title  = card.querySelector('.wf-tc-title');
-      const body   = card.querySelector('.wf-tc-body');
+      const tag = card.querySelector('.wf-tc-tag');
+      const label = card.querySelector('.wf-tc-label');
+      const title = card.querySelector('.wf-tc-title');
+      const body = card.querySelector('.wf-tc-body');
       const detail = card.querySelector('.wf-tc-detail');
-      const bar    = card.querySelector('.wf-tc-accent-bar');
+      const bar = card.querySelector('.wf-tc-accent-bar');
 
       gsap.set(card, { zIndex: 10, opacity: 1 });
 
@@ -249,12 +249,12 @@ function activateStep(
 ───────────────────────────────────────────────────────────── */
 export default function WorkflowSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const stickyRef  = useRef<HTMLDivElement>(null);
-  const activeIdx  = useRef(0);
+  const stickyRef = useRef<HTMLDivElement>(null);
+  const activeIdx = useRef(0);
 
   useEffect(() => {
     const section = sectionRef.current;
-    const sticky  = stickyRef.current;
+    const sticky = stickyRef.current;
     if (!section || !sticky) return;
 
     const ctx = gsap.context(() => {
@@ -265,12 +265,12 @@ export default function WorkflowSection() {
       ScrollTrigger.create({
         trigger: sticky,
         start: 'top top',
-        end: `+=${(N - 1) * 100}vh`,
+        end: `+=${(N - 1) * 200}vh`,
         pin: true,
         pinSpacing: true,
         anticipatePin: 1,
         onUpdate(self) {
-          const raw  = self.progress * N;
+          const raw = self.progress * N;
           const next = Math.min(Math.floor(raw), N - 1);
           if (next !== activeIdx.current) {
             activateStep(next, activeIdx.current, section, false);
