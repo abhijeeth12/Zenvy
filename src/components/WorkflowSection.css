@@ -4,17 +4,12 @@
    ═══════════════════════════════════════════════════════ */
 
 .wf-section {
-  height: 500vh;
   position: relative;
-  /* Safety net: entire scroll container shares the dark bg so
-     no white page background ever bleeds through during scroll */
   background: #0e0c0a;
 }
 
-/* ── Sticky viewport ── */
+/* ── Sticky viewport — GSAP pin handles positioning ── */
 .wf-sticky {
-  position: sticky;
-  top: 0;
   height: 100vh;
   width: 100%;
   background: #0e0c0a;
@@ -374,7 +369,7 @@
 }
 
 @media (max-width: 768px) {
-  .wf-section { height: calc(5 * 100dvh); }
+  /* Note: GSAP pinSpacing handles section scroll height on mobile too */
   .wf-sticky { height: 100dvh; }
   .wf-nav-row { padding: 1.25rem 1.5rem 0; }
   .wf-stage {

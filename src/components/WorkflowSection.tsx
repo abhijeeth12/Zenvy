@@ -249,21 +249,26 @@ function activateStep(
 ───────────────────────────────────────────────────────────── */
 export default function WorkflowSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const stickyRef  = useRef<HTMLDivElement>(null);
   const activeIdx  = useRef(0);
 
   useEffect(() => {
     const section = sectionRef.current;
-    if (!section) return;
+    const sticky  = stickyRef.current;
+    if (!section || !sticky) return;
 
     const ctx = gsap.context(() => {
-      /* Set initial states */
+      /* Set initial state with no animation */
       activateStep(0, null, section, true);
 
-      /* Scroll-driven step switching */
+      /* Single ScrollTrigger: pins the panel AND drives step transitions */
       ScrollTrigger.create({
-        trigger: section,
+        trigger: sticky,
         start: 'top top',
-        end: 'bottom bottom',
+        end: `+=${(N - 1) * 100}vh`,
+        pin: true,
+        pinSpacing: true,
+        anticipatePin: 1,
         onUpdate(self) {
           const raw  = self.progress * N;
           const next = Math.min(Math.floor(raw), N - 1);
@@ -273,16 +278,6 @@ export default function WorkflowSection() {
           }
         },
       });
-
-      /* Header section: fade in when section enters */
-      gsap.fromTo(
-        section.querySelector('.wf-nav-row'),
-        { opacity: 0, y: 20 },
-        {
-          opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
-          scrollTrigger: { trigger: section, start: 'top 80%', toggleActions: 'play none none none' },
-        }
-      );
     }, section);
 
     return () => ctx.revert();
@@ -290,7 +285,7 @@ export default function WorkflowSection() {
 
   return (
     <section ref={sectionRef} className="wf-section" id="how">
-      <div className="wf-sticky">
+      <div ref={stickyRef} className="wf-sticky">
 
         {/* Ambient background */}
         <div className="wf-ambient" />
