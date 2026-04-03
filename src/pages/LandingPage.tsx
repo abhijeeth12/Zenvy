@@ -2,11 +2,7 @@ import { useEffect, useLayoutEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ArrowRight,
-  Users,
-  Link2,
-  Search,
   Eye,
-  ShoppingCart,
   Radio,
   DollarSign,
   MessageSquare,
@@ -17,19 +13,12 @@ import './LandingPage.css';
 
 import { initScroll, destroyScroll } from '../animations/scrollSetup';
 import { initLandingAnimations } from '../animations/heroAnimations';
+import WorkflowSection from '../components/WorkflowSection';
 
 import heroBg from '../assets/hero_moody.png';
 import imgBowl from '../assets/artisan_salad.png';
 import imgSushi from '../assets/omakase.png';
 import imgSteak from '../assets/steakhouse.png';
-import imgLifestyle from '../assets/lifestyle_dining.png';
-
-// Step images
-import stepCreate from '../assets/step_create.png';
-import stepShare from '../assets/step_share.png';
-import stepBrowse from '../assets/step_browse.png';
-import stepCart from '../assets/step_cart.png';
-import stepOrder from '../assets/step_order.png';
 
 /* ── Word splitter for staggered text ── */
 const splitWords = (text: string, cls: string) =>
@@ -38,15 +27,6 @@ const splitWords = (text: string, cls: string) =>
       {word}{i < arr.length - 1 ? '\u00A0' : ''}
     </span>
   ));
-
-/* ── STEPS DATA ── */
-const STEPS = [
-  { icon: <Users size={22} />, title: 'Create a Batch', desc: 'Start a group order for your team, class, or office wing with a single tap.', img: stepCreate },
-  { icon: <Link2 size={22} />, title: 'Share the Link', desc: 'Invite friends and colleagues — anyone with the link can join instantly.', img: stepShare },
-  { icon: <Search size={22} />, title: 'Browse & Add', desc: 'Everyone picks from the same premium menu. No screenshots, no confusion.', img: stepBrowse },
-  { icon: <Eye size={22} />, title: 'Review Together', desc: 'See the shared cart update in real-time as items are added.', img: stepCart },
-  { icon: <ShoppingCart size={22} />, title: 'One Smart Order', desc: 'Place a single optimized delivery. One fee, one delivery, all together.', img: stepOrder },
-];
 
 /* ── FEATURES DATA ── */
 const FEATURES = [
@@ -171,51 +151,8 @@ export default function LandingPage() {
         <div className="hero-transition-sweep" />
       </section>
 
-      {/* ═══ HOW IT WORKS — Sticky Image + Scrolling Steps ═══ */}
-      <section id="how" className="how-section">
-        <div className="how-header">
-          <span className="section-tag">How It Works</span>
-          <h2 className="section-title">From Solo Orders to Smart Batches</h2>
-          <p className="section-subtitle">
-            Five simple steps that transform chaotic group ordering into a seamless experience.
-          </p>
-        </div>
-
-        <div className="how-body">
-          {/* Sticky image panel */}
-          <div className="how-visual-sticky">
-            <div className="how-visual-frame">
-              {STEPS.map((step, i) => (
-                <img
-                  key={i}
-                  src={step.img}
-                  alt={step.title}
-                  className={`how-step-img ${i === 0 ? 'how-step-img-active' : ''}`}
-                  data-step-img={i}
-                />
-              ))}
-              {/* Decorative food image behind the phone mockup */}
-              <img src={imgLifestyle} alt="" className="how-bg-food" />
-            </div>
-          </div>
-
-          {/* Scrolling text steps */}
-          <div className="how-steps-text">
-            {STEPS.map((step, i) => (
-              <div key={i} className={`step-item ${i === 0 ? 'step-active' : ''}`} data-step={i}>
-                <div className="step-number-wrap">
-                  <div className="step-number">{i + 1}</div>
-                </div>
-                <div className="step-content">
-                  <div className="step-icon">{step.icon}</div>
-                  <h3 className="step-title">{step.title}</h3>
-                  <p className="step-desc">{step.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* ═══ HOW IT WORKS — Cinematic Scrollytelling ═══ */}
+      <WorkflowSection />
 
       {/* ═══ FEATURES — Grid, no horizontal pin ═══ */}
       <section id="features" className="features-section">

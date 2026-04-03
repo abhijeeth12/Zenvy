@@ -35,30 +35,7 @@ function animateCounters(scope: HTMLElement, start: string) {
   });
 }
 
-/* ═══════════════════════════════════════════════════
-   STEP IMAGE SWITCHER
-   — switches the active step image in the sticky panel
-   ═══════════════════════════════════════════════════ */
-function initStepImageSwitcher(scope: HTMLElement) {
-  const steps = scope.querySelectorAll<HTMLElement>('.step-item');
-  const imgs = scope.querySelectorAll<HTMLElement>('.how-step-img');
-  if (steps.length === 0 || imgs.length === 0) return;
-
-  steps.forEach((step, idx) => {
-    ScrollTrigger.create({
-      trigger: step,
-      start: 'top 55%',
-      end: 'bottom 45%',
-      onEnter: () => activate(idx),
-      onEnterBack: () => activate(idx),
-    });
-  });
-
-  function activate(activeIdx: number) {
-    steps.forEach((s, i) => s.classList.toggle('step-active', i === activeIdx));
-    imgs.forEach((img, i) => img.classList.toggle('how-step-img-active', i === activeIdx));
-  }
-}
+/* initStepImageSwitcher removed — WorkflowSection owns step logic */
 
 /* ═══════════════════════════════════════════════════
    MAIN ANIMATION INITIALIZER
@@ -165,34 +142,7 @@ export function initLandingAnimations(scope: HTMLElement): gsap.Context {
           scrollTrigger: { trigger: '.hero-section', start: '60% top', end: 'bottom top', scrub: true },
         });
 
-        /* ─── 2. HOW IT WORKS — header reveal + sticky image switching ─── */
-        gsap.fromTo('.how-header',
-          { opacity: 0, y: 40 },
-          { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
-            scrollTrigger: { trigger: '.how-section', start: 'top 75%', toggleActions: 'play none none none' },
-          }
-        );
-
-        // Sticky visual frame entrance
-        gsap.fromTo('.how-visual-frame',
-          { opacity: 0, y: 30, scale: 0.95 },
-          { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: 'power3.out',
-            scrollTrigger: { trigger: '.how-body', start: 'top 80%', toggleActions: 'play none none none' },
-          }
-        );
-
-        // Step items — staggered reveal
-        gsap.utils.toArray<HTMLElement>('.step-item').forEach((step) => {
-          gsap.fromTo(step,
-            { opacity: 0, x: 30 },
-            { opacity: 1, x: 0, duration: 0.6, ease: 'power3.out',
-              scrollTrigger: { trigger: step, start: 'top 85%', toggleActions: 'play none none none' },
-            }
-          );
-        });
-
-        // Step activation + image switching
-        initStepImageSwitcher(scope);
+        /* ─── 2. HOW It Works handled by WorkflowSection (self-contained) ─── */
 
         /* ─── 3. FEATURES — NO pinning, NO horizontal scroll ─── */
 
@@ -322,9 +272,6 @@ export function initLandingAnimations(scope: HTMLElement): gsap.Context {
             start: 'top 88%',
           }
         );
-
-        // Step activation + image switching on mobile too
-        initStepImageSwitcher(scope);
 
         // Counters
         animateCounters(scope, 'top 88%');
